@@ -180,6 +180,14 @@ flowchart LR
   J --> K
 ```
 
+## Prototype verdict
+
+**Question:** does the Phase 1 main journey feel right on a phone, and which outfit-results layout works best?
+
+**Answer (20/11/2026):** variant **A**, one outfit card at a time with arrows and dots and "Compare all 3", confirming Q136. Variants B (stacked list) and C (outfits inside the chat) were rejected.
+
+**Prototype (primary source):** branch `prototype/phase-1-journey`, file `prototypes/phase-1-journey/index.html`, also published as a private clickable page. Throwaway code: rebuild properly when implementing; do not merge the branch.
+
 ## Decision log
 
 | # | Decision |
@@ -204,3 +212,4 @@ flowchart LR
 | Q151 | Post-event follow-up card, done in under 10 seconds. |
 | Q152 | Gap line under the relevant card; full list in Insights; never "buy". |
 | Q153 | UX decisions in `docs/ux/`, linked from the Phase 1 PRD. |
+| Q157 | Prototype verdict: results layout A (one card at a time) confirmed. |
