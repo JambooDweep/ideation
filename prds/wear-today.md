@@ -176,6 +176,22 @@ The prototype is a PWA; native iOS and Android apps follow in a later phase.
 109. As a user, I want "Remind me next week" and "Stop these reminders" on every reminder, so that I stay in control.
 110. As a user, I want reminders to drop to every 3 months, with a one-time note, if I ignore 3 in a row, so that the app never nags.
 
+### Easier wardrobe building
+
+111. As a new user, I want to see two ways to start, with what each involves (start with an event and get an outfit in about 3 minutes, or build my wardrobe first in about 10 minutes), so that I can choose what suits me.
+112. As a new user starting with an event, I want Spark to tell me the 3 to 5 items to photograph for it, so that I get my first outfit quickly.
+113. As a user, I want to photograph several items laid out together and have them split into separate items, so that I add many items at once.
+114. As a user, I want to record one slow video along my rail or shelf and have each item found, so that I add a whole section in a minute.
+115. As a user, I want a rapid capture mode that takes photos automatically and moves on, with tags reviewed later in one go, so that I don't tap for every item.
+116. As a user, I want my photos fixed automatically (cropped, background removed, brightened) where possible, so that I rarely need a retake.
+117. As a user, I want to check only the tags the AI is unsure about, so that reviewing is quick.
+118. As a user, I want to add an item I own by sharing its shop link, using the shop's photo, so that I don't have to photograph it.
+119. As a user, I want to forward old order emails and have those items added with the shop's photos, so that past purchases join my wardrobe without effort.
+120. As a user, I want to add common basics from a list without a photo, clearly marked "photo needed", so that I can start with what I obviously own.
+121. As a user, I want to see how many new outfits each item unlocks and my running total, so that adding items feels worthwhile.
+122. As a user, I want an optional daily outfit for the day's weather, so that I have a reason to open the app every morning.
+123. As a user, I want optional laundry-day prompts and short 10-minute category sprints, so that building my wardrobe fits into my routine.
+
 ## Implementation Decisions
 
 ### Platform and stack
