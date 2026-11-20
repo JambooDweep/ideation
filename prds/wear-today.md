@@ -15,6 +15,7 @@ Wear Today is a mobile-friendly, installable web app (PWA) with a chat assistant
 3. The user describes what they need in free text or by voice, for example "friend's garden wedding on Saturday afternoon in Bath, I want to feel bold", helped by suggestive prompts and quick picks.
 4. The app works out the occasion, dress code, mood, location and date, asks for anything missing, checks the weather forecast, and returns three outfits made only from available items, each with a one-line reason.
 5. The user likes, rejects or swaps items, saves an outfit for a future date, and after the event is asked how it went. That feedback, and the style profile, shape future suggestions, and the user gets insights about their wardrobe.
+6. The app spots gaps in the wardrobe: when a suggestion is held back by a missing item, and in an ongoing ranked list, it describes the item (type, colour, formality) and says how many new outfits it would unlock with what the user already owns. No brands or shopping links.
 
 The prototype is a PWA; native iOS and Android apps follow in a later phase.
 
@@ -104,6 +105,15 @@ The prototype is a PWA; native iOS and Android apps follow in a later phase.
 59. As the builder, I want the AI model choice set in one config, so that I can switch between quality and cost.
 60. As the builder, I want each AI call's token use and cost recorded, so that I know the running cost per user and per request.
 
+### Wardrobe gaps
+
+61. As a user, I want a suggestion to tell me when one missing item would complete or improve it ("Missing: a neutral blazer. Adding one would complete this outfit and pair with 6 other items you own"), so that I know what is holding the outfit back.
+62. As a user, I want a "Gaps in your wardrobe" list in my insights, ranked by how many new outfits each item would unlock ("White trainers would create 14 new combinations with what you have"), so that I can add the items that make the most of my wardrobe.
+63. As a user, I want each gap described by item type, colour and formality ("a navy or charcoal blazer, smart-casual"), without brands or shopping links, so that it is advice, not advertising.
+64. As a user, I want the "would pair with N items" and "N new combinations" figures to be calculated from my actual wardrobe, so that I can trust them.
+65. As a user, I want to dismiss a gap suggestion as "not interested", so that it is not shown to me again.
+66. As a user, I want the gap list to update when I add, delete or mark items unavailable, so that it always reflects my current wardrobe.
+
 ## Implementation Decisions
 
 ### Platform and stack
@@ -125,6 +135,7 @@ The prototype is a PWA; native iOS and Android apps follow in a later phase.
 - **Request understanding**: turns free text or voice into a structured request (occasion, dress code, mood, location, date/time, extra constraints), returns which fields are missing, and asks for them. Fallback: device location and today's date.
 - **Weather**: forecast for the resolved place and time; requests beyond the forecast window are told so and use typical seasonal conditions, labelled as such.
 - **Outfit engine**: filters the wardrobe in code first (available items only; warmth and season against the weather; formality against the dress code), then asks the AI to compose three outfits from the shortlist with a one-line reason each, as structured output referencing item IDs only. Code validates every outfit: only real, available item IDs; at least top and bottom or a one-piece, plus shoes; outerwear when the weather calls for it. Invalid outfits are dropped and regenerated. If no valid outfit meets the occasion, the engine returns the closest match and names the missing item type. No shopping links.
+- **Gap analysis**: candidate gap items are generic item descriptions (type, colour family, formality, warmth). For each candidate, code adds it as a virtual item and counts the new valid outfits it enables with the user's owned items, using the same outfit validity rules as the outfit engine. The AI may propose candidates and word the description, but the counts always come from code. In the moment, a gap is shown only when it relates to the current request (it would complete one of the three outfits or meet an unmet dress code); the insights list shows all gaps, ranked by new outfits unlocked. Dismissed gaps are stored per user and never shown again. No brands, prices or shopping links.
 - **Chat assistant**: conversational front end over request understanding and the outfit engine; supports follow-ups ("warmer", "less formal") and single-item swaps.
 - **Saved outfits**: save against event and date, list upcoming.
 - **Feedback**: like/reject/swap events at suggestion time; a post-event follow-up the day after a saved outfit's date (stars, quick tags, optional comment), which can be skipped or snoozed; in-app product feedback form with optional screenshot.
@@ -143,6 +154,7 @@ The prototype is a PWA; native iOS and Android apps follow in a later phase.
 
 - Good tests check external behaviour (what the user sees and what a module returns for given inputs), not internal details.
 - **Highest seam: the outfit engine.** Given a wardrobe, a structured request and a weather forecast, it returns three valid outfits or a clear gap message. Tested with fixed wardrobes and a stubbed AI response to cover: only available items used; formality and warmth filters; outerwear in cold or rain; missing-category gap messages; invalid AI output (unknown item IDs, incomplete outfits) rejected.
+- **Gap analysis**: fixed wardrobes with known answers, checking that the counts of new combinations and paired items are exact, that the ranking orders by outfits unlocked, that in-the-moment gaps appear only when relevant to the request, that dismissed gaps never reappear, and that output contains no brands or links.
 - **Request understanding**: a set of sample descriptions with expected structured requests and missing-field lists, including relative dates ("this Saturday") resolved as dd/mm/yyyy.
 - **Photo quality check**: a labelled image set (good, blurred, dark, cropped, several items, face present) with expected pass/fail and tip.
 - **Item tagging**: a labelled image set scored for tag accuracy; check that user edits survive re-tagging.
@@ -207,3 +219,6 @@ The prototype is a PWA; native iOS and Android apps follow in a later phase.
 | Q29 | Post-event follow-up the day after: stars, quick tags, optional comment; skippable or snoozable. |
 | Q30 | Insights for the user and an anonymised dashboard for the builder; feedback feeds suggestions. |
 | Q31 | In-app product feedback form with optional screenshot. |
+| Q32 | Gap suggestions both in the moment (when relevant) and as a ranked "Gaps in your wardrobe" list in insights. |
+| Q33 | Gaps described by type, colour and formality; no shopping links; combination counts calculated in code from the real wardrobe. |
+| Q34 | Gap suggestions can be dismissed and are remembered. |
