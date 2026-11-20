@@ -1,6 +1,6 @@
 # Wear Today Phase 3: Wardrobe Manager — Product Requirements Document
 
-Phase 3 of the [Roadmap](../ROADMAP.md). Builds on [Phase 1](wear-today.md) and [Phase 2](wear-today-phase-2-stylist-agent.md). Status: draft. Owner: product owner (self). Date: 20/11/2026.
+Phase 3 of the [Roadmap](../ROADMAP.md). Builds on [Phase 1](wear-today.md) and [Phase 2](wear-today-phase-2-stylist-agent.md). Safeguards: [SAFEGUARDS.md](../SAFEGUARDS.md). Status: draft. Owner: product owner (self). Date: 20/11/2026.
 
 ## Problem Statement
 

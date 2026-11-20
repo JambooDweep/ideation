@@ -1,6 +1,6 @@
 # Wear Today: Product Requirements Document
 
-Phase 1 of the [Roadmap](../ROADMAP.md). Working name; can be renamed. Status: draft for prototype build. Owner: product owner (self). Date: 20/11/2026.
+Phase 1 of the [Roadmap](../ROADMAP.md). Safeguards: [SAFEGUARDS.md](../SAFEGUARDS.md). Working name; can be renamed. Status: draft for prototype build. Owner: product owner (self). Date: 20/11/2026.
 
 ## Problem Statement
 
@@ -24,7 +24,7 @@ The prototype is a PWA; native iOS and Android apps follow in a later phase.
 ### Onboarding and account
 
 1. As a new user, I want to create an account, so that my wardrobe is saved and available on any device.
-2. As a new user, I want a short, optional style profile at sign-up (preferred styles, colours I avoid, fit preferences, optional gender presentation), so that suggestions suit me from the start.
+2. As a new user, I want a short, optional style profile at sign-up (preferred styles, colours I avoid, fit preferences, gender preference or "prefer not to say"), so that suggestions suit me from the start.
 3. As a new user, I want to skip any or all profile questions, so that I can start quickly.
 4. As a user, I want to edit my style profile at any time, so that it keeps up with my taste.
 5. As a user, I want to install the app on my phone's home screen, so that it feels like a normal app.
@@ -114,6 +114,16 @@ The prototype is a PWA; native iOS and Android apps follow in a later phase.
 65. As a user, I want to dismiss a gap suggestion as "not interested", so that it is not shown to me again.
 66. As a user, I want the gap list to update when I add, delete or mark items unavailable, so that it always reflects my current wardrobe.
 
+### Fit and colour profile
+
+67. As a user, I want to set my colour undertone (warm, cool or neutral) with a simple guided check, so that suggested colours suit me.
+68. As a user, I want to add my height and body proportions in neutral terms, so that lengths and silhouettes suit me.
+69. As a user, I want to add tailoring measurements (chest, waist, hips, inside leg, shoulder) if I choose, so that fit advice is precise.
+70. As a user, I want to set how I want to be styled (for example womenswear, menswear or a mix) or choose not to say, so that suggestions respect me; styling is gender-neutral if I don't set it.
+71. As a user, I want to add an adaptive clothing note (for example easy fastenings or seated fit), so that suggestions work for me.
+72. As a user, I want every profile field optional, editable and deletable, and never guessed from my photos, so that I control this personal data.
+73. As a user, I want the app never to comment on my weight or body, only on the clothes, so that using it feels good.
+
 ## Implementation Decisions
 
 ### Platform and stack
@@ -127,7 +137,8 @@ The prototype is a PWA; native iOS and Android apps follow in a later phase.
 
 ### Modules
 
-- **Accounts and profile**: sign-up, sign-in, optional style profile, account deletion (removes photos, items, outfits, feedback).
+- **Accounts and profile**: sign-up with 18+ check, sign-in (passkeys or email codes), optional style profile, account deletion (removes photos, items, outfits, feedback).
+- **Fit and colour profile**: optional, user-entered only (never inferred from photos): colour undertone (not skin colour), height, body proportions in neutral terms, optional tailoring measurements, gender preference or "prefer not to say", adaptive clothing note. Used by the outfit engine for colour, lengths, silhouettes and fit. Consent recorded. See [SAFEGUARDS.md](../SAFEGUARDS.md) for body-image rules and all other safeguards.
 - **Capture**: camera and upload, framing guidance overlay, image downscaling before upload.
 - **Photo quality check**: a fast on-device pre-check (blur, brightness, resolution) and then an AI check (single item, whole item in frame, background, no face). Returns pass/fail plus one specific tip. A photo containing a face is rejected and not stored.
 - **Item tagging**: AI returns structured tags (category, colour, pattern, material, formality, warmth, season) via a fixed JSON schema. Each tag records whether it came from the AI or the user; user-set values are never overwritten.
@@ -241,3 +252,5 @@ Decisions:
 | Q33 | Gaps described by type, colour and formality; no shopping links; combination counts calculated in code from the real wardrobe. |
 | Q34 | Gap suggestions can be dismissed and are remembered. |
 | Q35 | Test on free tiers: Vercel Hobby, Supabase Free, Open-Meteo, browser speech; Claude API is the only paid part. |
+| Q93 | Optional fit and colour profile (see SAFEGUARDS.md). |
+| Q102 | Gender preference or "prefer not to say"; gender-neutral if not set. |

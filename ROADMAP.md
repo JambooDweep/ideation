@@ -79,6 +79,8 @@ Photograph your wardrobe one item at a time with a guided quality check; the AI 
 
 ## Principles across every phase
 
+The full set of safeguards for Phases 1 to 4 is in [SAFEGUARDS.md](SAFEGUARDS.md).
+
 ### Trust ladder
 
 How far the agent acts on its own. The user moves up one setting at a time and can step back down whenever they like.

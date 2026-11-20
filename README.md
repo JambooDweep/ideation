@@ -2,6 +2,8 @@
 
 Brainstorming and product requirements (PRDs) for new ideas.
 
+Safeguards for every phase: [SAFEGUARDS.md](SAFEGUARDS.md).
+
 Start with the [Roadmap](ROADMAP.md): the vision for Wear Today, a personal style agent, in seven phases.
 
 ## Skills

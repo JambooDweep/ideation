@@ -1,6 +1,6 @@
 # Wear Today Phase 4: Shopping Agent — Product Requirements Document
 
-Phase 4 of the [Roadmap](../ROADMAP.md). Builds on Phases [1](wear-today.md), [2](wear-today-phase-2-stylist-agent.md) and [3](wear-today-phase-3-wardrobe-manager.md). Status: draft. Owner: product owner (self). Date: 20/11/2026.
+Phase 4 of the [Roadmap](../ROADMAP.md). Builds on Phases [1](wear-today.md), [2](wear-today-phase-2-stylist-agent.md) and [3](wear-today-phase-3-wardrobe-manager.md). Safeguards: [SAFEGUARDS.md](../SAFEGUARDS.md). Status: draft. Owner: product owner (self). Date: 20/11/2026.
 
 ## Problem Statement
 

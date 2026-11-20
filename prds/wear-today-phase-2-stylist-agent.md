@@ -1,6 +1,6 @@
 # Wear Today Phase 2: Personal Stylist Agent — Product Requirements Document
 
-Phase 2 of the [Roadmap](../ROADMAP.md). Builds on [Phase 1](wear-today.md). Status: draft. Owner: product owner (self). Date: 20/11/2026.
+Phase 2 of the [Roadmap](../ROADMAP.md). Builds on [Phase 1](wear-today.md). Safeguards: [SAFEGUARDS.md](../SAFEGUARDS.md). Status: draft. Owner: product owner (self). Date: 20/11/2026.
 
 ## Problem Statement
 
