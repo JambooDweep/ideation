@@ -22,7 +22,7 @@ The stylist brings people in, the manager keeps them, and sustainability sets it
 |---|---|---|---|
 | 1 | Wear Today app | Ask for an outfit; get three from your own wardrobe | [prds/wear-today.md](prds/wear-today.md) |
 | 2 | Personal stylist agent | It messages you first, remembers, and reads your invitations | [prds/wear-today-phase-2-stylist-agent.md](prds/wear-today-phase-2-stylist-agent.md) |
-| 3 | Wardrobe manager | Trips, usage, care, clear-outs and automatic capture | Next |
+| 3 | Wardrobe manager | Trips, usage, care, clear-outs and automatic capture | [prds/wear-today-phase-3-wardrobe-manager.md](prds/wear-today-phase-3-wardrobe-manager.md) |
 | 4 | Shopping agent (opt-in) | Gap-led, second-hand-first buying within your limits | Later |
 | 5 | Social and coordinating agents | Your agent coordinates with friends' and family's agents | Later |
 | 6 | Ambient and visual | Try-on avatar, mirror, speaker, AR, smart tags | Later |
@@ -47,9 +47,9 @@ Photograph your wardrobe one item at a time with a guided quality check; the AI 
 ### Phase 3: Wardrobe manager
 
 - **Trips**: reads a flight or hotel booking, checks the weather at the destination for each day, and builds a packing list and outfit plan from the fewest pieces.
-- **Usage**: wear counts, cost per wear, items unworn for 12 months, a seasonal swap-over reminder.
+- **Usage**: wear counts, cost per wear, items unworn for 18 months, a seasonal swap-over reminder.
 - **Care**: washing and dry-cleaning reminders; repair and alteration prompts spotted in photos.
-- **Clear-outs**: drafts resale listings or donation plans for unworn items; the user approves each one.
+- **Clear-outs**: flags items unworn for 18 months (including a full suitable season) and drafts resale listings or donation plans; the user approves each one.
 - **Automatic capture**: adds new items from purchase receipts in email, or splits every item out of a single video of the rail.
 
 ### Phase 4: Shopping agent (opt-in)
