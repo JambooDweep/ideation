@@ -1,0 +1,398 @@
+<title>Wear Today Prototype</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Inter:wght@400;500;600&display=swap">
+<!--
+  PROTOTYPE, throwaway. Question: does the Phase 1 main journey feel right on a phone,
+  and which outfit-results layout works best? Variants of the results screen:
+  A = one card at a time, swiped (the Q136 decision), B = stacked list, C = inside the chat.
+  Switch with the bar at the top, or the hash #a / #b / #c. Sample data only; no camera, AI or storage.
+-->
+<style>
+/* Layout: a phone-sized app column, centred on wide screens; bottom tab bar; prototype switcher pinned at the top. */
+:root {
+  --bg: #ffffff; --surface: #f6f5f3; --line: #e4e1dc; --fg: #1d1b19; --muted: #6b665f;
+  --accent: #e0902a; --accent-ink: #1d1b19; --good: #2f7d4f; --sel: #1d1b19; --sel-ink: #ffffff;
+  --display: "Bricolage Grotesque", "Segoe UI", Arial, sans-serif;
+  --body: "Inter", "Segoe UI", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #141312; --surface: #1f1d1b; --line: #34312d; --fg: #f1eeea; --muted: #a8a29a;
+  --accent: #f0a640; --accent-ink: #141312; --good: #5cbf85; --sel: #f1eeea; --sel-ink: #141312; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #141312; --surface: #1f1d1b; --line: #34312d; --fg: #f1eeea; --muted: #a8a29a;
+  --accent: #f0a640; --accent-ink: #141312; --good: #5cbf85; --sel: #f1eeea; --sel-ink: #141312; color-scheme: dark; }
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body { background: var(--surface); color: var(--fg); font: 15px/1.45 var(--body); margin: 0; }
+button { font: inherit; color: inherit; cursor: pointer; }
+button:focus-visible, input:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.app { max-width: 430px; margin: 0 auto; min-height: 100%; background: var(--bg); display: flex; flex-direction: column; position: relative; }
+.proto { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding-block: 6px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  background: var(--sel); color: var(--sel-ink); font-size: 12px; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--sel); }
+.proto button { background: transparent; border: 1px solid currentColor; border-radius: 999px; width: 28px; height: 28px; color: var(--sel-ink); }
+.proto b { font-weight: 600; }
+main { flex: 1; padding-block: 16px 96px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 16px; }
+h1, h2 { font-family: var(--display); font-weight: 700; margin: 0; text-wrap: balance; letter-spacing: -0.01em; }
+h1 { font-size: 30px; line-height: 1.1; } h2 { font-size: 21px; line-height: 1.2; }
+p { margin: 0; }
+.muted { color: var(--muted); }
+.small { font-size: 13px; }
+.btn { border: 0; border-radius: 12px; padding: 14px 16px; min-height: 48px; font-weight: 600; background: var(--accent); color: var(--accent-ink); width: 100%; }
+.btn.ghost { background: transparent; border: 1px solid var(--line); color: var(--fg); }
+.btn[disabled] { opacity: .45; cursor: not-allowed; }
+.row { display: flex; gap: 8px; flex-wrap: wrap; }
+.choice { border: 1px solid var(--line); border-radius: 16px; padding: 16px; text-align: left; background: var(--bg); display: grid; gap: 6px; flex: 1 1 160px; min-width: 0; }
+.choice b { font-family: var(--display); font-size: 18px; }
+.choice .time { font-size: 13px; color: var(--muted); }
+.spark { display: flex; gap: 10px; align-items: flex-start; }
+.spark .who { flex: none; width: 32px; height: 32px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); display: grid; place-items: center; font-weight: 700; font-family: var(--display); }
+.bubble { background: var(--surface); border-radius: 4px 16px 16px 16px; padding: 10px 12px; min-width: 0; }
+.me { align-self: flex-end; background: var(--sel); color: var(--sel-ink); border-radius: 16px 4px 16px 16px; padding: 10px 12px; max-width: 85%; }
+.chip { border: 1px solid var(--line); background: var(--bg); border-radius: 999px; padding: 8px 12px; min-height: 40px; font-size: 14px; }
+.chip.on { background: var(--sel); color: var(--sel-ink); border-color: var(--sel); }
+.input { display: flex; gap: 8px; align-items: center; border: 1px solid var(--line); border-radius: 14px; padding: 6px 6px 6px 12px; }
+.input input { flex: 1; min-width: 0; border: 0; background: transparent; color: var(--fg); font: inherit; padding: 8px 0; }
+.mic { width: 44px; height: 44px; border-radius: 50%; border: 0; background: var(--surface); font-size: 18px; }
+.tile { aspect-ratio: 1; border-radius: 12px; display: grid; place-items: center; font-size: 34px; position: relative; max-width: 100%; }
+.tile small { position: absolute; left: 6px; bottom: 6px; right: 6px; font-size: 11px; line-height: 1.2; background: rgba(255,255,255,.85); color: #1d1b19; border-radius: 6px; padding: 2px 5px; text-align: left; }
+.grid3 { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 8px; }
+.camera { border-radius: 18px; background: #2a2724; color: #f1eeea; aspect-ratio: 3/4; position: relative; display: grid; place-items: center; overflow: hidden; }
+.frame { width: 62%; aspect-ratio: 3/4; border: 2px dashed rgba(255,255,255,.7); border-radius: 14px; display: grid; place-items: center; font-size: 64px; }
+.hint { position: absolute; top: 12px; left: 12px; right: 12px; text-align: center; font-size: 13px; background: rgba(0,0,0,.45); border-radius: 999px; padding: 6px 10px; }
+.modes { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 6px; }
+.modes .chip { padding: 8px 4px; text-align: center; }
+.tray { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; }
+.tray .tile { width: 56px; flex: none; font-size: 24px; }
+.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(96px + env(safe-area-inset-bottom, 0px)); background: var(--sel); color: var(--sel-ink); padding: 10px 14px; border-radius: 999px; font-weight: 600; z-index: 30; max-width: calc(100% - 32px); }
+.steps { display: grid; gap: 10px; }
+.steps div { display: flex; gap: 10px; align-items: center; }
+.dot { width: 10px; height: 10px; border-radius: 50%; background: var(--line); flex: none; }
+.dot.done { background: var(--good); }
+.card { border: 1px solid var(--line); border-radius: 18px; padding: 14px; display: grid; gap: 12px; background: var(--bg); min-width: 0; }
+.collage { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px; }
+.collage button { border: 0; padding: 0; background: none; text-align: left; }
+.collage button.picked .tile { outline: 3px solid var(--accent); }
+.based { font-size: 13px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.based button { border: 0; background: var(--surface); border-radius: 999px; padding: 4px 9px; font-size: 12px; color: var(--fg); min-height: 28px; }
+.gap { font-size: 13px; border-top: 1px dashed var(--line); padding-top: 10px; color: var(--muted); }
+.actions { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 6px; }
+.actions button { border: 1px solid var(--line); background: var(--bg); border-radius: 12px; min-height: 48px; font-size: 13px; padding: 6px 4px; }
+.actions button.on { background: var(--sel); color: var(--sel-ink); border-color: var(--sel); }
+.pager { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.pager .dots { display: flex; gap: 6px; }
+.pager .dots span { width: 8px; height: 8px; border-radius: 50%; background: var(--line); }
+.pager .dots span.on { background: var(--fg); }
+.pager button { border: 1px solid var(--line); background: var(--bg); border-radius: 999px; width: 44px; height: 44px; font-size: 18px; }
+.swaprow { display: flex; gap: 8px; overflow-x: auto; }
+.swaprow button { border: 1px solid var(--line); background: var(--bg); border-radius: 12px; padding: 6px; width: 84px; flex: none; display: grid; gap: 4px; font-size: 12px; }
+.swaprow .tile { font-size: 26px; }
+.tabs { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 430px; background: var(--bg); border-top: 1px solid var(--line);
+  display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); padding-bottom: env(safe-area-inset-bottom, 0px); z-index: 15; }
+.tabs button { border: 0; background: none; padding: 10px 0 12px; min-height: 56px; font-size: 12px; color: var(--muted); display: grid; gap: 2px; justify-items: center; }
+.tabs button span { font-size: 18px; }
+.tabs button.on { color: var(--fg); font-weight: 600; }
+.fab { position: fixed; right: max(16px, calc(50% - 215px + 16px)); bottom: calc(72px + env(safe-area-inset-bottom, 0px)); z-index: 16; border: 0; border-radius: 999px; background: var(--accent); color: var(--accent-ink); font-weight: 600; padding: 12px 16px; min-height: 48px; box-shadow: 0 4px 14px rgba(0,0,0,.18); }
+.state { font: 12px/1.4 ui-monospace, "SFMono-Regular", Menlo, monospace; color: var(--muted); background: var(--surface); border-radius: 10px; padding: 8px 10px; overflow-x: auto; white-space: pre-wrap; }
+.sheet { border: 1px solid var(--line); border-radius: 14px; padding: 12px; display: grid; gap: 8px; }
+@media (prefers-reduced-motion: no-preference) { .toast { animation: up .25s ease-out; } @keyframes up { from { opacity: 0; transform: translate(-50%, 8px); } } }
+</style>
+
+<div class="app">
+  <div class="proto" role="region" aria-label="Prototype controls">
+    <button id="prev" aria-label="Previous variant">‹</button>
+    <span>Results layout: <b id="vlabel">A</b></span>
+    <button id="next" aria-label="Next variant">›</button>
+    <button id="restart" aria-label="Restart journey" style="width:auto;padding:0 10px">Restart</button>
+  </div>
+  <main id="main"></main>
+  <button class="fab" id="fab" hidden>Ask Spark</button>
+  <nav class="tabs" id="tabs" hidden aria-label="Main">
+    <button data-tab="today"><span>☀️</span>Today</button>
+    <button data-tab="wardrobe"><span>👚</span>Wardrobe</button>
+    <button data-tab="spark"><span>✦</span>Spark</button>
+    <button data-tab="me"><span>👤</span>Me</button>
+  </nav>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+(function () {
+  var VARIANTS = { a: "A · one card, swiped", b: "B · stacked list", c: "C · inside the chat" };
+  var ITEMS = {
+    dress:   { name: "Navy midi dress", e: "👗", c: "#33466b", tag: "navy" },
+    shirt:   { name: "Sage linen shirt", e: "👔", c: "#9fb39a" },
+    trousers:{ name: "Charcoal trousers", e: "👖", c: "#4b4b4f" },
+    blazer:  { name: "Cream blazer", e: "🧥", c: "#e6dcc6" },
+    heels:   { name: "Tan block heels", e: "👠", c: "#c49a6c" },
+    loafers: { name: "Brown loafers", e: "👞", c: "#7a5136" },
+    trainers:{ name: "White trainers", e: "👟", c: "#ececec" },
+    trench:  { name: "Light trench coat", e: "🧥", c: "#cdb58f" }
+  };
+  var ORDERS = { event: ["dress", "blazer", "heels", "loafers", "trench", "shirt", "trousers", "trainers"],
+                 wardrobe: ["dress", "shirt", "trousers", "blazer", "heels", "loafers", "trainers", "trench"] };
+  var CAPTURE_ORDER = ORDERS.wardrobe;
+  var UNLOCK = [0, 0, 1, 3, 7, 12, 18, 25, 31];
+  function outfitSet(path) {
+    var a = { items: ["dress", "blazer", "heels"], reason: "Block heels won't sink into the lawn, and the blazer covers the cooler evening." };
+    var c = { items: ["dress", "trench", "loafers"], reason: "The steadiest option for rain: loafers grip on wet grass and the trench keeps you dry." };
+    var b = path === "wardrobe"
+      ? { items: ["shirt", "trousers", "loafers", "trench"], reason: "Smart-casual and ready for the showers after 17:00 ☔, with the trench over the linen." }
+      : { items: ["dress", "blazer", "loafers"], reason: "Comfortable for standing all afternoon, and still smart enough for the ceremony." };
+    return [a, b, c];
+  }
+  var OUTFITS = outfitSet("wardrobe");
+  var SWAPS = { heels: ["loafers", "trainers"], blazer: ["trench"], loafers: ["heels", "trainers"], trench: ["blazer"], dress: ["shirt"], shirt: ["dress"], trousers: [], trainers: ["loafers", "heels"] };
+  var REASONS = ["Too formal", "Too casual", "Colour", "Not comfortable", "Worn recently", "Not me", "Wrong for the weather"];
+  var BASED = ["14°C, showers after 17:00", "Smart casual", "Guest", "Standing, grass"];
+
+  var s;
+  function reset() {
+    s = { screen: "welcome", path: null, owned: [], mode: "Single", stepsDone: 0, card: 0,
+      picked: null, liked: {}, rejected: {}, reasonFor: null, saved: null, tab: null, checked: false };
+  }
+  reset();
+  var variant = "a";
+  function readHash() { var h = location.hash.slice(1); variant = VARIANTS[h] ? h : "a"; }
+  readHash();
+
+  var main = document.getElementById("main");
+  function el(html) { var d = document.createElement("div"); d.innerHTML = html; return d; }
+  function tile(id, big) {
+    var it = ITEMS[id];
+    return '<div class="tile" style="background:' + it.c + (big ? '' : ';font-size:26px') + '" aria-label="' + it.name + '">' + it.e + (big ? '<small>' + it.name + '</small>' : '') + '</div>';
+  }
+  function toast(t) {
+    var n = document.getElementById("toast"); n.textContent = t; n.hidden = false;
+    clearTimeout(toast.t); toast.t = setTimeout(function () { n.hidden = true; }, 1800);
+  }
+  function sparkSays(t) { return '<div class="spark"><div class="who" aria-hidden="true">S</div><div class="bubble">' + t + '</div></div>'; }
+
+  var screens = {
+    welcome: function () {
+      return '<div style="display:grid;gap:14px;padding-top:24px">' +
+        '<h1>Wear Today</h1>' +
+        sparkSays("Hi, I'm Spark, an AI styling assistant. I suggest outfits from the clothes you already own.") +
+        '<p class="muted small">Sample prototype: no real sign-in, camera or AI.</p>' +
+        '<button class="btn" data-go="signin">Get started</button></div>';
+    },
+    signin: function () {
+      return '<h2>Sign in</h2><p class="muted">So nothing you add is lost.</p>' +
+        '<div class="sheet"><label class="row" style="align-items:center"><input type="checkbox" id="age"> <span>I am 18 or over</span></label></div>' +
+        '<button class="btn" data-go="choose" id="passkey" disabled>Continue with a passkey</button>' +
+        '<button class="btn ghost" data-go="choose" id="code" disabled>Email me a code</button>';
+    },
+    choose: function () {
+      return '<h2>How would you like to start?</h2>' +
+        '<div class="row">' +
+        '<button class="choice" data-path="event"><b>Start with an event</b><span>Tell Spark what\'s coming up and photograph just the items for it.</span><span class="time">First outfit in about 3 minutes</span></button>' +
+        '<button class="choice" data-path="wardrobe"><b>Build my wardrobe first</b><span>Photograph a balanced first set, then ask for outfits.</span><span class="time">About 10 minutes for 15 items</span></button>' +
+        '</div><p class="muted small">You can switch any time. Your wardrobe grows either way.</p>';
+    },
+    event: function () {
+      return sparkSays("What's coming up?") +
+        '<div class="row"><button class="chip" data-say="Sam\'s garden wedding, Saturday afternoon in Bath">Sam\'s garden wedding, Saturday in Bath</button>' +
+        '<button class="chip" data-say="Dinner with friends tonight">Dinner tonight</button>' +
+        '<button class="chip" data-say="Job interview on Monday">Interview on Monday</button></div>' +
+        '<div class="input"><input id="ask" placeholder="Describe the event, place and time" aria-label="Describe the event"><button class="mic" aria-label="Hold to talk">🎙️</button></div>' +
+        '<button class="btn" id="sendEvent">Send</button>';
+    },
+    plan: function () {
+      return '<div class="me">' + (s.request || "Sam's garden wedding, Saturday afternoon in Bath") + '</div>' +
+        sparkSays("Lovely 💍 For that, photograph: a dress, or a smart shirt and trousers, two pairs of shoes, a jacket and a raincoat. Then I'll put outfits together.") +
+        '<button class="btn" data-go="capture">Open the camera</button>';
+    },
+    capture: function () {
+      var next = CAPTURE_ORDER[s.owned.length];
+      var need = s.path === "wardrobe" ? 8 : 5;
+      var modes = ["Single", "Several", "Rail video", "Rapid"].map(function (m) {
+        return '<button class="chip' + (s.mode === m ? ' on' : '') + '" data-mode="' + m + '">' + m + '</button>';
+      }).join("");
+      var hint = { Single: "One item, whole item in frame", Several: "Lay 4 to 6 items flat, not touching", "Rail video": "Pan slowly along the rail", Rapid: "Hold steady: it captures for you" }[s.mode];
+      var tray = s.owned.map(function (id) { return tile(id); }).join("");
+      var checklist = s.path === "wardrobe" ? '<p class="small muted">First set: tops ' + count(["shirt"]) + '/3 · bottoms ' + count(["trousers","dress"]) + '/3 · shoes ' + count(["heels","loafers","trainers"]) + '/3 · coat ' + count(["blazer","trench"]) + '/1</p>' : '';
+      return '<h2>Add items</h2>' + checklist +
+        '<div class="camera"><div class="hint">' + hint + '</div><div class="frame" aria-hidden="true">' + (next ? ITEMS[next].e : "✓") + '</div></div>' +
+        '<div class="modes" role="group" aria-label="Capture mode">' + modes + '</div>' +
+        '<button class="btn" id="snap"' + (next ? '' : ' disabled') + '>' + (s.mode === "Single" || s.mode === "Rapid" ? "Take photo" : s.mode === "Several" ? "Take photo of several" : "Record rail") + '</button>' +
+        (tray ? '<div class="tray" aria-label="Items found">' + tray + '</div>' : '') +
+        '<p class="small muted">' + s.owned.length + ' item' + (s.owned.length === 1 ? '' : 's') + ' · ' + UNLOCK[s.owned.length] + ' outfits unlocked</p>' +
+        '<button class="btn ghost" id="doneCap"' + (s.owned.length >= need ? '' : ' disabled') + '>Done' + (s.owned.length < need ? ' (add ' + (need - s.owned.length) + ' more)' : '') + '</button>';
+    },
+    review: function () {
+      return '<h2>Quick check</h2><p class="muted">I\'m sure about the rest. Just one:</p>' +
+        '<div class="card">' + tile("dress", true) + '<p><b>Is this navy or black?</b></p><div class="row">' +
+        '<button class="chip" data-col="navy">Navy</button><button class="chip" data-col="black">Black</button></div></div>';
+    },
+    ask: function () {
+      return sparkSays(s.path === "wardrobe" ? "Your first set is in ✨ What's coming up?" : "Got it. Shall I put outfits together for Sam's wedding?") +
+        '<div class="row"><button class="chip on">Smart casual</button><button class="chip">Outdoors</button><button class="chip">Feeling bold</button></div>' +
+        '<div class="input"><input id="ask2" value="' + (s.request || "Sam's garden wedding, Saturday afternoon in Bath") + '" aria-label="Your request"><button class="mic" aria-label="Hold to talk">🎙️</button></div>' +
+        '<button class="btn" data-go="loading">Show me outfits</button>';
+    },
+    loading: function () {
+      var steps = ["Checking the weather in Bath for Saturday", "Picking shoes for grass", "Putting together 3 outfits"];
+      return sparkSays("Working on it.") + '<div class="steps" aria-live="polite">' + steps.map(function (t, i) {
+        return '<div><span class="dot' + (i < s.stepsDone ? ' done' : '') + '"></span><span class="' + (i < s.stepsDone ? '' : 'muted') + '">' + t + '…</span></div>';
+      }).join("") + '</div>';
+    },
+    results: function () {
+      if (variant === "a") return resultsA();
+      if (variant === "b") return resultsB();
+      return resultsC();
+    },
+    today: function () {
+      return '<h2>Morning ☀️</h2><p class="muted">14°C in Bristol, showers from 15:00</p>' +
+        (s.saved !== null ? '<div class="card"><p class="small muted">Saturday · Sam\'s wedding</p><div class="collage">' + OUTFITS[s.saved].items.map(function (id) { return tile(id, true); }).join("") + '</div></div>'
+          : '<div class="card"><p>No plans yet.</p><p class="muted small">Save an outfit to see it here.</p></div>') +
+        '<div class="card"><p><b>Wardrobe check-up</b></p><p class="muted small">Due on Saturday. Takes under 2 minutes.</p></div>';
+    },
+    wardrobe: function () {
+      return '<h2>Wardrobe</h2><p class="muted small">' + s.owned.length + ' items · ' + UNLOCK[s.owned.length] + ' outfits unlocked</p>' +
+        '<div class="row"><button class="chip on">All</button><button class="chip">Needs attention</button><button class="chip">Available</button></div>' +
+        '<div class="grid3">' + s.owned.map(function (id) { return tile(id, true); }).join("") + '</div>' +
+        '<button class="btn ghost" data-go="capture">+ Add items</button>';
+    },
+    spark: function () {
+      return '<h2>Spark</h2><div class="card"><p><b>Sam\'s wedding</b>, 14/03/2026</p><p class="muted small">3 outfits · ' + (s.saved !== null ? 'one saved' : 'none saved') + '</p></div>';
+    },
+    me: function () {
+      return '<h2>Me</h2><div class="card"><p><b>Profile</b></p><p class="muted small">25% complete</p></div>' +
+        '<div class="card"><p><b>Insights and gaps</b></p><p class="muted small">Missing: a neutral clutch bag · +5 outfits</p></div>' +
+        '<div class="card"><p><b>Privacy</b></p><p class="muted small">Export data · Delete account · What Spark knows about me</p></div>';
+    }
+  };
+
+  function count(ids) { return s.owned.filter(function (i) { return ids.indexOf(i) >= 0; }).length; }
+
+  function based() {
+    return '<div class="based"><span>Based on:</span>' + BASED.map(function (b) { return '<button data-based="' + b + '">' + b + '</button>'; }).join("") + '</div>';
+  }
+  function outfitCard(i) {
+    var o = OUTFITS[i];
+    var collage = '<div class="collage">' + o.items.map(function (id) {
+      return '<button data-swap="' + i + ':' + id + '" class="' + (s.picked === i + ':' + id ? 'picked' : '') + '" aria-label="Swap ' + ITEMS[id].name + '">' + tile(id, true) + '</button>';
+    }).join("") + '</div>';
+    var swap = "";
+    if (s.picked && s.picked.split(":")[0] == i) {
+      var cur = s.picked.split(":")[1];
+      var alts = (SWAPS[cur] || []).filter(function (a) { return s.owned.indexOf(a) >= 0 && o.items.indexOf(a) < 0; });
+      swap = '<div class="sheet"><p class="small"><b>Swap the ' + ITEMS[cur].name.toLowerCase() + '</b>, best first</p>' +
+        (alts.length ? '<div class="swaprow">' + alts.map(function (a) { return '<button data-do-swap="' + i + ':' + cur + ':' + a + '">' + tile(a) + ITEMS[a].name + '</button>'; }).join("") + '</div>'
+          : '<p class="muted small">Nothing else in your wardrobe works here yet.</p>') + '</div>';
+    }
+    var rej = "";
+    if (s.reasonFor === i) {
+      rej = '<div class="sheet"><p class="small"><b>What was wrong?</b> (optional)</p><div class="row">' + REASONS.map(function (r) { return '<button class="chip" data-reason="' + i + ':' + r + '">' + r + '</button>'; }).join("") + '</div></div>';
+    }
+    var gap = i === 0 ? '<p class="gap">Missing: a neutral clutch bag · +5 outfits <button class="chip" style="min-height:28px;padding:2px 8px;font-size:12px">Not interested</button></p>' : '';
+    return '<div class="card" aria-label="Outfit ' + (i + 1) + ' of 3">' + collage +
+      '<p>' + o.reason + '</p>' + based() + swap + rej +
+      '<div class="actions">' +
+      '<button data-like="' + i + '" class="' + (s.liked[i] ? 'on' : '') + '">❤️ Like</button>' +
+      '<button data-reject="' + i + '" class="' + (s.rejected[i] ? 'on' : '') + '">✕ Not this</button>' +
+      '<button data-swaphint="' + i + '">⇄ Swap</button>' +
+      '<button data-save="' + i + '" class="' + (s.saved === i ? 'on' : '') + '">' + (s.saved === i ? 'Saved' : 'Save') + '</button>' +
+      '</div>' + gap + '</div>';
+  }
+  function resultsA() {
+    var dots = [0, 1, 2].map(function (i) { return '<span class="' + (i === s.card ? 'on' : '') + '"></span>'; }).join("");
+    return sparkSays("Here are 3 options for Sam's wedding. Swipe or use the arrows.") +
+      outfitCard(s.card) +
+      '<div class="pager"><button data-card="-1" aria-label="Previous outfit">‹</button><div class="dots" aria-label="Outfit ' + (s.card + 1) + ' of 3">' + dots + '</div><button data-card="1" aria-label="Next outfit">›</button></div>' +
+      '<button class="btn ghost" id="compare">Compare all 3</button>';
+  }
+  function resultsB() {
+    return sparkSays("Here are 3 options for Sam's wedding.") + [0, 1, 2].map(outfitCard).join("");
+  }
+  function resultsC() {
+    return '<div class="me">' + (s.request || "Sam's garden wedding, Saturday afternoon in Bath") + '</div>' +
+      sparkSays("Here's my first pick 💍") + outfitCard(0) +
+      sparkSays("Or, if the showers arrive early:") + outfitCard(1) +
+      sparkSays("And the steadiest for rain:") + outfitCard(2) +
+      '<div class="input"><input placeholder="Something warmer? Less formal?" aria-label="Refine"><button class="mic" aria-label="Hold to talk">🎙️</button></div>';
+  }
+
+  function stateLine() {
+    return '<div class="state">PROTOTYPE STATE  screen=' + (s.tab || s.screen) + '  path=' + s.path + '  items=' + s.owned.length +
+      '  variant=' + variant.toUpperCase() + '  liked=' + Object.keys(s.liked).join(",") + '  rejected=' + Object.keys(s.rejected).join(",") + '  saved=' + s.saved + '</div>';
+  }
+
+  function render() {
+    document.getElementById("vlabel").textContent = VARIANTS[variant];
+    var name = s.tab || s.screen;
+    main.innerHTML = screens[name]() + stateLine();
+    var showTabs = s.screen === "results" || s.tab;
+    document.getElementById("tabs").hidden = !showTabs;
+    document.getElementById("fab").hidden = !showTabs || s.tab === null;
+    document.querySelectorAll(".tabs button").forEach(function (b) { b.classList.toggle("on", (s.tab || "spark") === b.dataset.tab); });
+    if (name === "signin") {
+      var age = document.getElementById("age");
+      age.addEventListener("change", function () { document.getElementById("passkey").disabled = !age.checked; document.getElementById("code").disabled = !age.checked; });
+    }
+    window.scrollTo(0, 0);
+  }
+
+  function go(screen) { s.screen = screen; s.tab = null; render(); if (screen === "loading") runSteps(); }
+  function runSteps() {
+    s.stepsDone = 0;
+    var t = setInterval(function () {
+      s.stepsDone++; if (s.screen !== "loading") { clearInterval(t); return; }
+      if (s.stepsDone > 3) { clearInterval(t); s.screen = "results"; s.card = 0; render(); return; }
+      render();
+    }, 700);
+  }
+
+  main.addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return;
+    var d = b.dataset;
+    if (d.go) return go(d.go);
+    if (d.path) { s.path = d.path; CAPTURE_ORDER = ORDERS[d.path]; OUTFITS = outfitSet(d.path); return go(d.path === "event" ? "event" : "capture"); }
+    if (d.say) { document.getElementById("ask").value = d.say; return; }
+    if (b.id === "sendEvent") { s.request = document.getElementById("ask").value || "Sam's garden wedding, Saturday afternoon in Bath"; return go("plan"); }
+    if (d.mode) { s.mode = d.mode; return render(); }
+    if (b.id === "snap") {
+      var n = s.mode === "Single" ? 1 : s.mode === "Rapid" ? 2 : 3;
+      var before = UNLOCK[s.owned.length];
+      for (var k = 0; k < n && s.owned.length < CAPTURE_ORDER.length; k++) s.owned.push(CAPTURE_ORDER[s.owned.length]);
+      var gain = UNLOCK[s.owned.length] - before;
+      toast(n > 1 ? "Found " + n + " items" + (gain ? " · +" + gain + " outfits ✨" : "") : (gain ? "+" + gain + " outfits ✨, " + UNLOCK[s.owned.length] + " so far" : "Added " + ITEMS[s.owned[s.owned.length - 1]].name));
+      return render();
+    }
+    if (b.id === "doneCap") return go("review");
+    if (d.col) { toast("Thanks, saved as " + d.col); return go("ask"); }
+    if (d.card) { s.card = (s.card + Number(d.card) + 3) % 3; s.picked = null; s.reasonFor = null; return render(); }
+    if (b.id === "compare") { variant = "b"; location.hash = "b"; return; }
+    if (d.like) { s.liked[d.like] = !s.liked[d.like]; delete s.rejected[d.like]; return render(); }
+    if (d.reject) { s.rejected[d.reject] = true; delete s.liked[d.reject]; s.reasonFor = Number(d.reject); return render(); }
+    if (d.reason) { var p = d.reason.split(":"); s.reasonFor = null; toast("Got it: " + p[1].toLowerCase() + ". I'll adjust the next ones."); return render(); }
+    if (d.swaphint) { toast("Tap an item in the outfit to swap it"); return; }
+    if (d.swap) { s.picked = s.picked === d.swap ? null : d.swap; return render(); }
+    if (d.doSwap) {
+      var q = d.doSwap.split(":"), o = OUTFITS[q[0]]; o.items[o.items.indexOf(q[1])] = q[2];
+      s.picked = null; toast("Swapped in the " + ITEMS[q[2]].name.toLowerCase()); return render();
+    }
+    if (d.save) { s.saved = Number(d.save); toast("Saved for Saturday. It's on your Today tab."); return render(); }
+    if (d.based) { toast("Prototype: here you'd correct “" + d.based + "”"); return; }
+  });
+  document.getElementById("tabs").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return;
+    if (b.dataset.tab === "spark") { s.tab = null; s.screen = "results"; } else { s.tab = b.dataset.tab; }
+    render();
+  });
+  document.getElementById("fab").addEventListener("click", function () { s.tab = null; go("ask"); });
+  function cycle(dir) { var keys = Object.keys(VARIANTS); var i = (keys.indexOf(variant) + dir + keys.length) % keys.length; location.hash = keys[i]; }
+  document.getElementById("prev").addEventListener("click", function () { cycle(-1); });
+  document.getElementById("next").addEventListener("click", function () { cycle(1); });
+  document.getElementById("restart").addEventListener("click", function () { reset(); CAPTURE_ORDER = ORDERS.wardrobe; OUTFITS = outfitSet("wardrobe"); render(); });
+  document.addEventListener("keydown", function (e) {
+    var t = e.target; if (t.closest && t.closest("input, textarea, [contenteditable]")) return;
+    if (e.key === "ArrowLeft") cycle(-1); if (e.key === "ArrowRight") cycle(1);
+  });
+  window.addEventListener("hashchange", function () { readHash(); if (s.screen === "results") s.card = 0; render(); });
+  render();
+})();
+</script>
