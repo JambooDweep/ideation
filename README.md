@@ -11,4 +11,6 @@ Workflow:
 1. `/grill-me`: a structured interview that stress-tests the idea until every decision is settled.
 2. `/to-spec`: turns that conversation into a PRD (problem, solution, user stories, implementation and testing decisions, out of scope).
 
-PRDs live in `prds/`.
+PRDs live in `prds/`:
+
+- [Wear Today](prds/wear-today.md): outfit suggestions from your own wardrobe for an event, occasion and mood.
