@@ -186,6 +186,7 @@ The prototype is a PWA; native iOS and Android apps follow in a later phase.
 116. As a user, I want my photos fixed automatically (cropped, background removed, brightened) where possible, so that I rarely need a retake.
 117. As a user, I want to check only the tags the AI is unsure about, so that reviewing is quick.
 118. As a user, I want to add an item I own by sharing its shop link, using the shop's photo, so that I don't have to photograph it.
+118a. As a user, I want Spark to tell me plainly when it can't read a shop page, and let me use a screenshot of the page or a photo instead, with the name and colour I type filled in, so that a blocked page never stops me adding the item.
 119. As a user, I want to forward old order emails and have those items added with the shop's photos, so that past purchases join my wardrobe without effort.
 120. As a user, I want to add common basics from a list without a photo, clearly marked "photo needed", so that I can start with what I obviously own.
 121. As a user, I want to see how many new outfits each item unlocks and my running total, so that adding items feels worthwhile.
@@ -215,6 +216,7 @@ The prototype is a PWA; native iOS and Android apps follow in a later phase.
   - **Photo fixing**: auto-crop, background removal and brightness correction before the quality check; retake only when a photo can't be fixed.
   - Every item found in a multi-item photo or video goes through the quality check and tagging; the user reviews the items found before they are added.
 - **"I own this" links** (Q129): the user shares a shop link for an item they own; the app fetches that one page once, at the user's request, and uses the shop's product photo and details (the Phase 4 share-a-link method, brought forward). No seller details stored.
+  - **Fallback** (Q165): if the page blocks reading, publishes no product details, or the fetch fails, Spark says so plainly ("I couldn't read that page. Want to use a screenshot of it or a photo instead?") and offers: (1) a screenshot of the product page, cropped to the product image, which goes through photo fixing and the quality check (teen accounts: rejected if a person is shown), or (2) a photo of the item. The name, colour and price the user types are filled in; the AI tags the rest. The failed link is not retried automatically.
 - **Old order emails** (Q129): a per-user forwarding address (brought forward from Phase 2) accepts past order confirmations; items are added with the shop's product photos. Only item, price, date and shop are kept; the email is deleted immediately (the Phase 3 receipt rules, brought forward).
 - **Basics without a photo** (Q130): about 20 common basics (white T-shirt, blue jeans, black trainers and so on) can be picked from a list, shown with a simple illustration and a "photo needed" badge. They can be used in suggestions, with Spark saying so ("using your white T-shirt, no photo yet"), and are excluded from gap and outfit-unlock counts until they have a photo.
 - **First run** (Q124): two options presented side by side with what each involves, and the user chooses:
@@ -263,7 +265,7 @@ The prototype is a PWA; native iOS and Android apps follow in a later phase.
 - **Check-up reminders**: simulated users over 6 months; checks opt-in is respected, reminders are skipped after recent updates, sent only at the chosen time outside quiet hours, hold at most 3 relevant prompts, back off after 3 ignored, and are never repeated for the same thing.
 - **Photo quality check**: a labelled image set (good, blurred, dark, cropped, face present) with expected pass/fail and tip; checks that photo fixing rescues fixable photos.
 - **Multi-item photos and rail videos**: labelled sets scored on items found and accuracy of the split.
-- **"I own this" links and order emails**: sample pages and emails; checks the right details are read, one page per share, only listed fields kept, emails deleted.
+- **"I own this" links and order emails**: sample pages and emails; checks the right details are read, one page per share, only listed fields kept, emails deleted. Blocked, empty and failing pages: checks Spark's message, that the screenshot and photo fallbacks work, and that the link is not retried.
 - **Basics without a photo**: checks they are flagged in suggestions and excluded from gap and unlock counts.
 - **First run**: scripted runs of both first-run options; time to first outfit measured.
 - **Item tagging**: a labelled image set scored for tag accuracy; check that user edits survive re-tagging.
@@ -383,4 +385,5 @@ Decisions:
 | Q131 | Opt-in laundry-day prompt and 10-minute category sprints. |
 | Q132 | Targets: first outfit within 5 minutes for 80%; 15 items within 7 days for 60%. |
 | Q158 to Q164 | The app is 13+, with teen mode for 13 to 17 (see SAFEGUARDS.md section 7). |
+| Q165 | "I own this" link fallback: say so plainly, offer a page screenshot or a photo, fill in typed name, colour and price; no automatic retry. |
 | Q133 | Free inbound email: Cloudflare Email Routing with an Email Worker on a sub-domain; random per-user addresses; Worker stores nothing; small free webhook service as early fallback. |
