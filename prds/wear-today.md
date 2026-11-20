@@ -1,6 +1,6 @@
 # Wear Today: Product Requirements Document
 
-Phase 1 of the [Roadmap](../ROADMAP.md). Safeguards: [SAFEGUARDS.md](../SAFEGUARDS.md). Assistant persona: [Spark](../docs/persona.md). Working name; can be renamed. Status: draft for prototype build. Owner: product owner (self). Date: 20/11/2026.
+Phase 1 of the [Roadmap](../ROADMAP.md). Safeguards: [SAFEGUARDS.md](../SAFEGUARDS.md). Assistant persona: [Spark](../docs/persona.md). UX: [docs/ux/ux-decisions.md](../docs/ux/ux-decisions.md). Working name; can be renamed. Status: draft for prototype build. Owner: product owner (self). Date: 20/11/2026.
 
 ## Problem Statement
 
