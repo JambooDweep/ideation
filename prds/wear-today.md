@@ -161,6 +161,24 @@ The prototype is a PWA; native iOS and Android apps follow in a later phase.
 - **End-to-end**: a scripted run in a mobile browser: sign up, add items, request an outfit, swap an item, save it, give post-event feedback, delete the account.
 - **Evaluation against success targets** (see Further Notes), run on a small group of test users.
 
+## Hosting for Testing
+
+The prototype is tested on free tiers only. Limits were checked against 2026 sources on 20/11/2026; confirm them on each provider's pricing page before relying on them.
+
+| Need | Free choice | Free-tier limits | Constraints |
+|---|---|---|---|
+| Next.js PWA hosting | Vercel Hobby | No card, no expiry; HTTPS (required for a PWA); a preview link for each push; about 100 GB transfer and a few hours of server time a month | Personal, non-commercial use only; a feature pauses until the month resets if limits are exceeded |
+| Database, sign-in, photo storage | Supabase Free | 500 MB database, 1 GB file storage, 5 GB data out a month, 50,000 monthly users, up to 2 projects | Project pauses after about a week of low activity: open it before test sessions or add a scheduled ping |
+| Weather forecast | Open-Meteo | Free, no key, forecasts up to 16 days | Non-commercial use; terms to be confirmed |
+| Voice | Browser built-in speech | Free | Support varies by browser (best in Chrome and Safari); cloud speech fallback left out of the free set-up |
+
+Decisions:
+
+- Photos are downscaled to about 200 KB before upload, so 1 GB holds about 5,000 item photos: roughly 100 test users at 30 to 50 items each.
+- The Claude API is the only paid part. A monthly spend limit is set in the Anthropic console, and `claude-sonnet-5-5` is used for tagging and suggestions during testing to keep costs down.
+- Separate Supabase projects for development and testing (the two free projects).
+- Moving to Vercel Pro and Supabase Pro (about $20 and $25 a month, from third-party guides) is needed before any commercial use, and removes the inactivity pause.
+
 ## Out of Scope
 
 - Shopping, affiliate links or "buy this" suggestions.
@@ -222,3 +240,4 @@ The prototype is a PWA; native iOS and Android apps follow in a later phase.
 | Q32 | Gap suggestions both in the moment (when relevant) and as a ranked "Gaps in your wardrobe" list in insights. |
 | Q33 | Gaps described by type, colour and formality; no shopping links; combination counts calculated in code from the real wardrobe. |
 | Q34 | Gap suggestions can be dismissed and are remembered. |
+| Q35 | Test on free tiers: Vercel Hobby, Supabase Free, Open-Meteo, browser speech; Claude API is the only paid part. |
