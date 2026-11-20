@@ -2,6 +2,8 @@
 
 Brainstorming and product requirements (PRDs) for new ideas.
 
+Start with the [Roadmap](ROADMAP.md): the vision for Wear Today, a personal style agent, in seven phases.
+
 ## Skills
 
 This repository enables Matt Pocock's skills plugin (`mattpocock-skills`, from the `mattpocock/skills` marketplace) in `.claude/settings.json`. Claude Code offers to install it when you open the repository and trust the folder.

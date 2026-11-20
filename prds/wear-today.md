@@ -1,6 +1,6 @@
 # Wear Today: Product Requirements Document
 
-Working name; can be renamed. Status: draft for prototype build. Owner: product owner (self). Date: 20/11/2026.
+Phase 1 of the [Roadmap](../ROADMAP.md). Working name; can be renamed. Status: draft for prototype build. Owner: product owner (self). Date: 20/11/2026.
 
 ## Problem Statement
 
