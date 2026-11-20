@@ -95,7 +95,7 @@ Search and finds are free for everyone, funded by disclosed commission. Price wa
 - New retailers through affiliate product feeds.
 - UK shops first.
 - No bulk scraping (Q92a): it breaks most sites' terms, collects seller personal data, goes stale, breaks often, and would undermine the trust promise.
-- **Share a link** (Q92b): the user shares one product link; the app fetches that one page, once, at the user's request, and reads the product details the page publishes for search engines and link previews (name, price, colour, photos). The user confirms them. No seller details are stored. The link leads to the shop's own checkout, with no commission.
+- **Share a link** (Q92b; the same method is used from Phase 1 for "I own this" links, Q129): the user shares one product link; the app fetches that one page, once, at the user's request, and reads the product details the page publishes for search engines and link previews (name, price, colour, photos). The user confirms them. No seller details are stored. The link leads to the shop's own checkout, with no commission.
 
 ### Trust level 3: prepare purchases
 

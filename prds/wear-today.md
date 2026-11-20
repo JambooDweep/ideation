@@ -10,7 +10,7 @@ People regularly stand in front of a full wardrobe and still don't know what to 
 
 Wear Today is a mobile-friendly, installable web app (PWA) with a chat assistant, typed or spoken, that suggests outfits from the user's own wardrobe.
 
-1. The user builds a digital wardrobe by photographing their clothes, shoes and accessories one item at a time. The app guides each photo and checks it is good enough to analyse, giving a specific tip when it isn't.
+1. The user builds a digital wardrobe with as little effort as possible: single photos, several items in one photo, a rail video, a rapid capture mode, "I own this" shop links, forwarded old order emails, or basics picked from a list. On first run they choose to start from an upcoming event (first outfit in about 3 minutes) or to build the wardrobe first. The app checks and fixes photos, and asks for a retake only when a photo can't be fixed.
 2. The AI tags each item (category, colour, pattern, material, formality, warmth, season). The user can correct any tag.
 3. The user describes what they need in free text or by voice, for example "friend's garden wedding on Saturday afternoon in Bath, I want to feel bold", helped by suggestive prompts and quick picks.
 4. The app works out the occasion, dress code, mood, location and date, asks for anything missing, checks the weather forecast, and returns three outfits made only from available items, each with a one-line reason.
@@ -191,10 +191,26 @@ The prototype is a PWA; native iOS and Android apps follow in a later phase.
 
 - **Accounts and profile**: sign-up with 18+ check, sign-in (passkeys or email codes), optional style profile, account deletion (removes photos, items, outfits, feedback).
 - **Fit and colour profile**: optional, user-entered only (never inferred from photos): colour undertone (not skin colour), height, body proportions in neutral terms, optional tailoring measurements, gender preference or "prefer not to say", adaptive clothing note. Used by the outfit engine for colour, lengths, silhouettes and fit. Consent recorded. See [SAFEGUARDS.md](../SAFEGUARDS.md) for body-image rules and all other safeguards.
-- **Capture**: camera and upload, framing guidance overlay, image downscaling before upload.
+- **Capture**: camera and upload, framing guidance overlay, image downscaling before upload. Modes (Q127 to Q129):
+  - **Single item** photo.
+  - **Several items in one photo** (for example 4 to 6 laid on a bed), split into separate items.
+  - **Rail or shelf video**, split into items (capped at 3 videos per user per day); brought forward from Phase 3.
+  - **Rapid capture**: the camera stays open, captures automatically when an item is steady and well framed, and moves on; tagging runs in the background and is reviewed later in one go.
+  - **Photo fixing**: auto-crop, background removal and brightness correction before the quality check; retake only when a photo can't be fixed.
+  - Every item found in a multi-item photo or video goes through the quality check and tagging; the user reviews the items found before they are added.
+- **"I own this" links** (Q129): the user shares a shop link for an item they own; the app fetches that one page once, at the user's request, and uses the shop's product photo and details (the Phase 4 share-a-link method, brought forward). No seller details stored.
+- **Old order emails** (Q129): a per-user forwarding address (brought forward from Phase 2) accepts past order confirmations; items are added with the shop's product photos. Only item, price, date and shop are kept; the email is deleted immediately (the Phase 3 receipt rules, brought forward).
+- **Basics without a photo** (Q130): about 20 common basics (white T-shirt, blue jeans, black trainers and so on) can be picked from a list, shown with a simple illustration and a "photo needed" badge. They can be used in suggestions, with Spark saying so ("using your white T-shirt, no photo yet"), and are excluded from gap and outfit-unlock counts until they have a photo.
+- **First run** (Q124): two options presented side by side with what each involves, and the user chooses:
+  - **Start with an event**: "What's coming up?" Spark names the 3 to 5 items to photograph for it; first outfit in about 3 minutes; the wardrobe grows through use.
+  - **Build my wardrobe first**: guided capture of a balanced first set (about 10 minutes for 15 items) before the first outfit.
+  Either way, the first-set checklist continues afterwards.
+- **Outfits unlocked counter** (Q125): each item added shows the new outfits it creates and the running total ("+7 outfits ✨, 31 so far"), counted in code. No streaks.
+- **Weather-only daily outfit** (Q126): opt-in, off by default, offered after the first outfit; a morning outfit for the day's weather at the user's location. Replaced by the Phase 2 morning briefing.
+- **Habit prompts** (Q131): opt-in laundry-day prompt ("Putting laundry away? Snap each item as you fold it 🧺") under the check-up reminder settings, same no-nagging rules; 10-minute category sprints ("Today: shoes 👟") with progress.
 - **Onboarding**: balanced first-set checklist (tops, bottoms, a pair of shoes of each type, a coat) shown as progress; suggestions available from 8 items, with a note that quality improves at 15 or more.
 - **Photo quality check**: a fast on-device pre-check (blur, brightness, resolution) and then an AI check (single item, whole item in frame, background, no face). Returns pass/fail plus one specific tip. A photo containing a face is rejected and not stored.
-- **Item tagging**: AI returns structured tags (category, colour, pattern, material, formality, warmth, season) via a fixed JSON schema. Each tag records whether it came from the AI or the user; user-set values are never overwritten.
+- **Item tagging**: AI returns structured tags (category, colour, pattern, material, formality, warmth, season) via a fixed JSON schema, with a confidence per tag. Confident tags are accepted by default; only uncertain ones are flagged for a quick check ("Is this navy or black?") (Q128). Each tag records whether it came from the AI or the user; user-set values are never overwritten.
 - **Item details** (user, one-tap): fit now (fits well, tight, loose, needs altering); favourite or confidence item, or rarely comfortable; confirmed fabric weight and lining for outerwear and knits; needs ironing or creases easily; sets and "never pair these" rules. Items marked tight, loose or needs altering are excluded from suggestions until marked fixed (Phase 3 turns them into alteration tasks).
 - **Wardrobe**: item list, filters, availability toggle, delete.
 - **Request understanding**: turns free text or voice into a structured request: occasion, dress code, mood, location, date/time, anchor item(s) to build around, excluded items, role (guest, host, wedding party, speaker, interviewee), activity (walking, standing, dancing, sitting on the floor, cycling), venue and surface (indoors or outdoors, grass, cobbles, sand), duration, etiquette and cultural context, photos expected. Anchors and exclusions can also be set by tapping items. It asks at most 2 follow-up questions, chosen by how much the answer would change the outfit, and returns the rest as stated assumptions. Fallback: device location and today's date.
@@ -229,7 +245,11 @@ The prototype is a PWA; native iOS and Android apps follow in a later phase.
 - **Etiquette rules**: sample events (weddings, funerals, religious venues, user-added rules); checks that no suggestion breaks an applicable rule and that the app asks when unsure.
 - **Reject reasons**: checks that a reason changes the next suggestions in the same chat (for example "too formal" lowers formality).
 - **Check-up reminders**: simulated users over 6 months; checks opt-in is respected, reminders are skipped after recent updates, sent only at the chosen time outside quiet hours, hold at most 3 relevant prompts, back off after 3 ignored, and are never repeated for the same thing.
-- **Photo quality check**: a labelled image set (good, blurred, dark, cropped, several items, face present) with expected pass/fail and tip.
+- **Photo quality check**: a labelled image set (good, blurred, dark, cropped, face present) with expected pass/fail and tip; checks that photo fixing rescues fixable photos.
+- **Multi-item photos and rail videos**: labelled sets scored on items found and accuracy of the split.
+- **"I own this" links and order emails**: sample pages and emails; checks the right details are read, one page per share, only listed fields kept, emails deleted.
+- **Basics without a photo**: checks they are flagged in suggestions and excluded from gap and unlock counts.
+- **First run**: scripted runs of both first-run options; time to first outfit measured.
 - **Item tagging**: a labelled image set scored for tag accuracy; check that user edits survive re-tagging.
 - **End-to-end**: a scripted run in a mobile browser: sign up, add items, request an outfit, swap an item, save it, give post-event feedback, delete the account.
 - **Evaluation against success targets** (see Further Notes), run on a small group of test users.
@@ -262,7 +282,6 @@ Decisions:
 - Payments or subscriptions.
 - Languages other than English.
 - Repeat-avoidance based on what the user wore recently.
-- Photos of whole outfits or several items at once (one item per photo only).
 
 ## Further Notes
 
@@ -276,6 +295,8 @@ Decisions:
 | Photos passing the quality check on the first or second try | 90% |
 | Wardrobe check-ups opened | 40% |
 | Opened check-ups leading to at least one wardrobe update | 50% |
+| Users getting a first outfit within 5 minutes of sign-up | 80% |
+| Users reaching 15 items within 7 days | 60% |
 
 ### Brainstorm decision log
 
@@ -290,7 +311,7 @@ Decisions:
 | Q7 | Weather and dress code shape the pick. |
 | Q8 | Prototype: mobile-friendly web app with a chat assistant that supports voice. |
 | Q9 | One PWA now; native apps later. |
-| Q10 | One item per photo. |
+| Q10 | One item per photo. Revised by Q127: several items per photo and rail videos allowed. |
 | Q11 | Check focus, light, framing, single item, background; reject faces; give a specific tip. |
 | Q12 | AI tags every item; user edits always win. |
 | Q13 | Three outfits as collages with reasons; like, reject, swap. |
@@ -333,3 +354,12 @@ Decisions:
 | Q121 | At most 3 personal prompts in Spark's voice, one tap to each fix, under 2 minutes. |
 | Q122 | Snooze and stop on every reminder; drops to every 3 months after 3 ignored; never repeated. |
 | Q123 | Targets: 40% of check-ups opened; half of those lead to an update. |
+| Q124 | First run offers both options with what each involves: start with an event, or build the wardrobe first. |
+| Q125 | "Outfits unlocked" counter, counted in code, no streaks. |
+| Q126 | Opt-in weather-only daily outfit, replaced by the Phase 2 briefing. |
+| Q127 | Several items per photo and rail videos in Phase 1 (3 videos a day); revises Q10. |
+| Q128 | Rapid capture, photo fixing, review of uncertain tags only. |
+| Q129 | "I own this" links and old order emails in Phase 1, with Phase 3 and 4 privacy rules. |
+| Q130 | About 20 basics without a photo, flagged in suggestions and excluded from counts; revises Phase 3 Q65 for basics. |
+| Q131 | Opt-in laundry-day prompt and 10-minute category sprints. |
+| Q132 | Targets: first outfit within 5 minutes for 80%; 15 items within 7 days for 60%. |

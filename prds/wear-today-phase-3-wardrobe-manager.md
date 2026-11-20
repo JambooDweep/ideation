@@ -11,7 +11,7 @@ Even with outfits planned, a wardrobe takes work to run. Packing for a trip mean
 Wear Today's agent becomes a wardrobe manager, built in this order:
 
 1. **Trips**: spots trips in the calendar or forwarded bookings (or the user adds one), and builds a packing plan: an outfit for each day and event from the destination's forecast, the fewest pieces that mix together, a checklist within luggage limits, without items needed for events back home. Packed items are marked away until the trip ends.
-2. **Automatic capture**: forwarded receipts become draft items; one video of a rail or shelf is split into separate items, each run through the Phase 1 quality check.
+2. **Automatic capture**: forwarded receipts become draft items; one video of a rail or shelf is split into separate items, each run through the Phase 1 quality check. *Update (Q127, Q129): rail videos and old order emails now arrive in Phase 1. Phase 3 builds on them: ongoing receipts feed prices and cost per wear, and capture links into usage and care.*
 3. **Usage**: accepted plans count as worn (one-tap correction next morning), giving wear counts, cost per wear, and monthly insights with one suggestion.
 4. **Clear-outs**: items unworn for 18 months, including a full season when they would suit, are flagged; the agent drafts a resale listing or donation plan for the user to approve.
 5. **Care**: care labels read from optional photos; wear-based washing and dry-cleaning reminders; repair tasks from photos and a twice-yearly wardrobe check.
@@ -167,7 +167,7 @@ The last target is the wardrobe manager's main measure.
 | Q62 | Prices from receipts or user entry, optional; cost per wear only for priced items. |
 | Q63 | Clear-out flag after 18 months unworn, including a full suitable season; "keep" exemption. |
 | Q64 | Draft resale listings and donation plans; user approves each; no posting. |
-| Q65 | Receipts and rail videos; receipt items stay drafts until a passing photo is added. |
+| Q65 | Receipts and rail videos; receipt items stay drafts until a passing photo is added. Revised by Phase 1 Q129 and Q130: shop product photos count as photos, and about 20 basics may be added without a photo. |
 | Q66 | Optional care label photos, wear-based defaults by category, care tasks in the morning briefing. |
 | Q67 | Repairs from photos and damage reports plus an optional twice-yearly check of the top 20 items. |
 | Q68 | Usage insights with one monthly suggestion. |
