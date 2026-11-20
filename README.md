@@ -1,0 +1,14 @@
+# Ideation
+
+Brainstorming and product requirements (PRDs) for new ideas.
+
+## Skills
+
+This repository enables Matt Pocock's skills plugin (`mattpocock-skills`, from the `mattpocock/skills` marketplace) in `.claude/settings.json`. Claude Code offers to install it when you open the repository and trust the folder.
+
+Workflow:
+
+1. `/grill-me`: a structured interview that stress-tests the idea until every decision is settled.
+2. `/to-spec`: turns that conversation into a PRD (problem, solution, user stories, implementation and testing decisions, out of scope).
+
+PRDs live in `prds/`.
