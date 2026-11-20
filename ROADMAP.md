@@ -21,7 +21,7 @@ The stylist brings people in, the manager keeps them, and sustainability sets it
 | Phase | Name | One line | PRD |
 |---|---|---|---|
 | 1 | Wear Today app | Ask for an outfit; get three from your own wardrobe | [prds/wear-today.md](prds/wear-today.md) |
-| 2 | Personal stylist agent | It messages you first, remembers, and reads your invitations | Next |
+| 2 | Personal stylist agent | It messages you first, remembers, and reads your invitations | [prds/wear-today-phase-2-stylist-agent.md](prds/wear-today-phase-2-stylist-agent.md) |
 | 3 | Wardrobe manager | Trips, usage, care, clear-outs and automatic capture | Next |
 | 4 | Shopping agent (opt-in) | Gap-led, second-hand-first buying within your limits | Later |
 | 5 | Social and coordinating agents | Your agent coordinates with friends' and family's agents | Later |

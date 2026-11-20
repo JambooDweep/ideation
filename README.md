@@ -16,3 +16,4 @@ Workflow:
 PRDs live in `prds/`:
 
 - [Wear Today](prds/wear-today.md): outfit suggestions from your own wardrobe for an event, occasion and mood.
+- [Wear Today Phase 2: Personal stylist agent](prds/wear-today-phase-2-stylist-agent.md): calendar-aware briefings, plans, re-checks and memory.
