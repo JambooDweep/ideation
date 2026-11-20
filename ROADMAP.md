@@ -23,7 +23,7 @@ The stylist brings people in, the manager keeps them, and sustainability sets it
 | 1 | Wear Today app | Ask for an outfit; get three from your own wardrobe | [prds/wear-today.md](prds/wear-today.md) |
 | 2 | Personal stylist agent | It messages you first, remembers, and reads your invitations | [prds/wear-today-phase-2-stylist-agent.md](prds/wear-today-phase-2-stylist-agent.md) |
 | 3 | Wardrobe manager | Trips, usage, care, clear-outs and automatic capture | [prds/wear-today-phase-3-wardrobe-manager.md](prds/wear-today-phase-3-wardrobe-manager.md) |
-| 4 | Shopping agent (opt-in) | Gap-led, second-hand-first buying within your limits | Later |
+| 4 | Shopping agent (opt-in) | Gap-led, second-hand-first finds within your budget; you always pay | [prds/wear-today-phase-4-shopping-agent.md](prds/wear-today-phase-4-shopping-agent.md) |
 | 5 | Social and coordinating agents | Your agent coordinates with friends' and family's agents | Later |
 | 6 | Ambient and visual | Try-on avatar, mirror, speaker, AR, smart tags | Later |
 | 7 | Platform | Other agents ask your style agent; third-party add-ons | Later |
@@ -55,9 +55,10 @@ Photograph your wardrobe one item at a time with a guided quality check; the AI 
 ### Phase 4: Shopping agent (opt-in)
 
 - **Gap-led shopping**: searches shops for the gap that unlocks the most outfits, second-hand first, within a budget the user sets.
+- **Share a link**: the user shares a product link from any shop and gets the "is this worth buying?" check (outfits unlocked, cost per wear, fit, budget).
 - **Price watching and returns**: watches prices on items of interest; tracks returns and their deadlines.
 - **Sustainability**: a wardrobe footprint and "buy less, better" nudges.
-- **Strict authority**: never buys without one-tap approval each time, until the user opts out. Spending limit and action log always visible.
+- **The user always pays**: the agent finds items and prepares the shop's checkout; the user pays at the shop. Wear Today never pays and never stores card, bank or other payment details. Budget and action log always visible.
 
 ### Phase 5: Social and coordinating agents
 
@@ -87,9 +88,9 @@ How far the agent acts on its own. The user moves up one setting at a time and c
 | 0 | Suggest | 1 |
 | 1 | Remind and plan | 2 |
 | 2 | Act on reversible things (mark items, draft listings) | 3 |
-| 3 | Spend within limits | 4 |
+| 3 | Prepare purchases (fill the basket, ready the checkout); the user always pays | 4 |
 
-Level 3 is the ceiling. It is switched on only by the user, and every purchase needs a one-tap approval until the user opts out. The agent never shares or deletes anything without asking.
+Level 3 is the ceiling. It is switched on only by the user. The agent never pays for anything: the user always completes payment at the shop, and no payment details are stored (Q80, Q84). The agent never shares or deletes anything without asking.
 
 ### Memory you can see
 
@@ -117,15 +118,16 @@ Shop on request only. Gap-led, second-hand first, no paid placements, and any co
 | Free | Core app: wardrobe, suggestions, gaps, feedback | 1 |
 | Paid subscription | Agent features: proactive briefings, memory, invitations, trips, usage, care, clear-outs | 2 to 3 |
 | Pay per use | Human stylist review | 5 |
-| Disclosed affiliate commission | Purchases the user approves | 4 |
+| Disclosed affiliate commission | Funds free search and finds; never affects ranking | 4 |
 
 ## Brainstorm decision log
 
 | # | Decision |
 |---|---|
 | Q36 | North star: stylist, then wardrobe manager, then sustainability coach. |
-| Q37 | Autonomy ceiling: Level 3, spending within limits, user-enabled only, from Phase 4; one-tap approval per purchase until the user opts out. |
+| Q37 | Autonomy ceiling: Level 3, user-enabled only, from Phase 4. Revised by Q84: Level 3 means preparing purchases; the agent never pays. |
 | Q38 | Shopping on request only: gap-led, second-hand first, no paid placements, commission disclosed. |
 | Q39 | Free core; paid tier for agent features; pay-per-use stylist reviews; disclosed affiliate commission in Phase 4 only. |
 | Q40 | Phases 2 and 3 next. |
 | Q41 | `ROADMAP.md` for the vision; one PRD per phase in `prds/`; Wear Today PRD stays as Phase 1. |
+| Q84 | Trust level 3 redefined as "prepare purchases"; the user always pays; no payment details stored. |

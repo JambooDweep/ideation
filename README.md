@@ -18,3 +18,4 @@ PRDs live in `prds/`:
 - [Wear Today](prds/wear-today.md): outfit suggestions from your own wardrobe for an event, occasion and mood.
 - [Wear Today Phase 2: Personal stylist agent](prds/wear-today-phase-2-stylist-agent.md): calendar-aware briefings, plans, re-checks and memory.
 - [Wear Today Phase 3: Wardrobe manager](prds/wear-today-phase-3-wardrobe-manager.md): trips and packing, automatic capture, usage, clear-outs and care.
+- [Wear Today Phase 4: Shopping agent](prds/wear-today-phase-4-shopping-agent.md): gap-led, second-hand-first finds with a worth-buying check; the user always pays.
