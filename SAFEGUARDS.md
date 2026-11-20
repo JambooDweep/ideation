@@ -29,6 +29,7 @@ Date: 20/11/2026. Applies to every phase PRD in `prds/`. Where a PRD and this do
 | Forwarding addresses random and unguessable, regenerable; messages to unknown addresses dropped; the inbound email Worker stores nothing | 1 | Q133 |
 | Shop links never carry personal details | 4 | Q86 |
 | Trace and logs hold actions, timings and costs only, never photo, message or document content | All | Q19, Q54 |
+| No location-based detection of shopping or other places; location is used only for the weather at a request's place and time | 1 to 4 | Q154 |
 
 ## 2. AI accuracy and manipulation
 
@@ -160,3 +161,4 @@ Used for colour advice, lengths and silhouettes, fit, alteration prompts (Phase 
 | Q100 | Row-level security, encrypted photos with expiring links, passkeys or email codes, rate limits, no secrets in code, activity alerts. |
 | Q101 | Global and per-tool kill switches, alerts, 72-hour incident plan. |
 | Q102 | User sets a gender preference or chooses not to say; gender-neutral if not set; no gender assumed from item category; adaptive clothing note. |
+| Q154 | Location-based shopping detection rejected: poor timing, not possible in a web app, low permission rates, loss of trust, sensitive location history, and it would read as a shopping nudge. |
