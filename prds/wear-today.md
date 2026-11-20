@@ -164,6 +164,18 @@ The prototype is a PWA; native iOS and Android apps follow in a later phase.
 100. As a new user, I want a balanced first-set checklist (tops, bottoms, a pair of shoes of each type, a coat) shown as progress, so that I photograph the right items first.
 101. As a new user, I want suggestions to start once I have 8 items, with a note that quality improves at 15 or more, so that I see value early and know what to add.
 
+### Wardrobe check-up reminders
+
+102. As a user, I want to choose at onboarding whether to get a wardrobe check-up reminder (monthly preselected), so that my wardrobe stays up to date without me remembering.
+103. As a user, I want to change how often it comes (every 2 weeks, monthly, every 3 months) or switch it off any time, so that it suits me.
+104. As a user, I want the check-up as a card on the app's home screen and, if I allow it, as a push notification, so that I see it where I prefer.
+105. As a user, I want the reminder skipped if I've added or updated items in the last 2 weeks, so that I'm not reminded for nothing.
+106. As a user, I want it to arrive at a good moment (Saturday at 10:00 by default, never late at night, outside quiet hours), and to change that time, so that it fits my week.
+107. As a user, I want the check-up to show at most 3 personal prompts from Spark (new items, items stuck in the wash, items marked tight, seasonal swap-over, missing basics), so that it's quick and relevant.
+108. As a user, I want each prompt to take me straight to the fix in one tap, and the whole check-up to take under 2 minutes, so that it's painless.
+109. As a user, I want "Remind me next week" and "Stop these reminders" on every reminder, so that I stay in control.
+110. As a user, I want reminders to drop to every 3 months, with a one-time note, if I ignore 3 in a row, so that the app never nags.
+
 ## Implementation Decisions
 
 ### Platform and stack
@@ -197,6 +209,7 @@ The prototype is a PWA; native iOS and Android apps follow in a later phase.
 - **Feedback**: like/reject/swap events at suggestion time, with optional one-tap reject reasons (too formal, too casual, colour, not comfortable, worn recently, not me, wrong for the weather) that also steer the next suggestions in the same chat; a post-event follow-up the day after a saved outfit's date (stars, quick tags, optional comment), which can be skipped or snoozed; in-app product feedback form with optional screenshot.
 - **Personalisation**: profile plus feedback history summarised into preference signals given to the outfit engine. Profile additions, all optional and asked gradually ("one quick question" after a suggestion): runs hot or cold, hard limits, everyday work dress code, colours loved, hair colour and contrast level, style goals and optional inspiration photos (no faces, same photo check as items). Favourites and confidence items are preferred; rarely comfortable items are used less.
 - **Insights**: per-user wardrobe insights; builder dashboard over anonymised, aggregated metrics.
+- **Wardrobe check-up reminders**: opt-in at onboarding (monthly preselected); frequency every 2 weeks, monthly, every 3 months or off. In-app home card always; web push optional, permission asked only when reminders are switched on (on iPhone, push needs the app added to the home screen). A scheduled job (Vercel Cron or Supabase scheduled functions) checks each user: skip if items were added or updated in the last 2 weeks; send at the user's chosen time (default Saturday 10:00), outside quiet hours. Content: at most 3 prompts in Spark's voice, chosen in code from: new items, items unavailable for over 2 weeks, items marked tight, loose or needs altering, seasonal swap-over, missing basics from the gap list or first-set checklist; each links to its fix. Snooze ("Remind me next week") and stop on every reminder; after 3 ignored in a row, frequency drops to every 3 months with a one-time note; never sent twice for the same thing. From Phase 2, the check-up moves into the morning briefing.
 - **Usage and cost log**: per AI call, record step, model, tokens and cost, never photo or text content.
 
 ### Rules
@@ -215,6 +228,7 @@ The prototype is a PWA; native iOS and Android apps follow in a later phase.
 - **Outfit engine constraints**: fixed wardrobes and requests; checks that anchors always appear, exclusions never do, ill-fitting items and hard limits are respected, sets and never-pair rules hold, footwear suits activity and surface, and running hot or cold shifts layers.
 - **Etiquette rules**: sample events (weddings, funerals, religious venues, user-added rules); checks that no suggestion breaks an applicable rule and that the app asks when unsure.
 - **Reject reasons**: checks that a reason changes the next suggestions in the same chat (for example "too formal" lowers formality).
+- **Check-up reminders**: simulated users over 6 months; checks opt-in is respected, reminders are skipped after recent updates, sent only at the chosen time outside quiet hours, hold at most 3 relevant prompts, back off after 3 ignored, and are never repeated for the same thing.
 - **Photo quality check**: a labelled image set (good, blurred, dark, cropped, several items, face present) with expected pass/fail and tip.
 - **Item tagging**: a labelled image set scored for tag accuracy; check that user edits survive re-tagging.
 - **End-to-end**: a scripted run in a mobile browser: sign up, add items, request an outfit, swap an item, save it, give post-event feedback, delete the account.
@@ -260,6 +274,8 @@ Decisions:
 | Time to return 3 outfits | Under 15 seconds |
 | Requests where at least 1 of 3 outfits is liked | 70% |
 | Photos passing the quality check on the first or second try | 90% |
+| Wardrobe check-ups opened | 40% |
+| Opened check-ups leading to at least one wardrobe update | 50% |
 
 ### Brainstorm decision log
 
@@ -311,3 +327,9 @@ Decisions:
 | Q109 | Balanced first-set checklist; suggestions from 8 items, better at 15 or more. |
 | Q110 | Each suggestion shows "Based on:" assumptions, tappable to correct. |
 | Q111 to Q117 | The chat assistant is Spark: a calm, warm, honest styling assistant; see docs/persona.md. |
+| Q118 | Wardrobe check-up reminder: opt-in at onboarding, monthly by default, adjustable or off. |
+| Q119 | In-app card always; optional push; moves into the morning briefing from Phase 2. |
+| Q120 | Skipped after updates in the last 2 weeks; Saturday 10:00 by default, outside quiet hours. |
+| Q121 | At most 3 personal prompts in Spark's voice, one tap to each fix, under 2 minutes. |
+| Q122 | Snooze and stop on every reminder; drops to every 3 months after 3 ignored; never repeated. |
+| Q123 | Targets: 40% of check-ups opened; half of those lead to an update. |

@@ -84,6 +84,7 @@ Used for colour advice, lengths and silhouettes, fit, alteration prompts (Phase 
 | Never post, delete, share, pay or contact anyone | 2 to 4 | Q71, Q80 |
 | Action log of every agent action with time and reason | 2 to 4 | Q47 |
 | Quiet hours, message frequency setting, "not helpful" feedback, user off switch | 2 | Q47 |
+| Wardrobe check-up reminders opt-in only; push permission asked only when switched on; snooze and stop on every reminder; back-off to every 3 months after 3 ignored; never repeated | 1 | Q118 to Q122 |
 | Messages only when something has changed and matters | 2 | Q50 |
 
 ## 5. Money

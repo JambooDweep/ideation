@@ -120,6 +120,7 @@ Phase 2 features are a paid tier, with a free 30-day trial. The Phase 1 core app
 - **Re-check**: code compares the forecast, the event and item availability with the plan. Only when a difference makes the outfit unsuitable does it ask the outfit engine for a fix.
 - **Briefing**: timing (90 minutes before first event, not before 06:30, 07:30 default, user-adjustable); content (outfit, weather and changes, prep tasks, multi-event changes, "show alternatives").
 - **Notifications**: web push first; daily email fallback; quiet hours; frequency setting; "not helpful" feedback; global off switch.
+- **Wardrobe check-up** (from Phase 1, Q118 to Q123): no longer a separate reminder; its prompts appear in the morning briefing on the user's chosen check-up day, with the same frequency, skip, snooze and back-off rules.
 - **Memory**: worn outfits, events, guest names (names only), feedback; 2-year retention; "what the agent knows about me" view with edit and delete.
 - **Repeat-avoidance**: no same outfit with the same group within 60 days; no same key item two days running; user-adjustable.
 - **Subscription**: 30-day trial, trial-end reminder, paid tier for agent features; core app unaffected.
