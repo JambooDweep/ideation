@@ -41,7 +41,7 @@ flowchart TB
 ### First run (Q142)
 
 1. **Welcome**: Spark introduces itself in one line and says it is an AI styling assistant.
-2. **Sign in**: 18+ check, then passkey or email code, before the first photo so nothing is lost.
+2. **Sign in**: date of birth (13+; teen mode for 13 to 17), then passkey or email code, before the first photo so nothing is lost.
 3. **Choose how to start**, side by side:
    - "Start with an event: first outfit in about 3 minutes"
    - "Build my wardrobe first: about 10 minutes for 15 items"
@@ -81,7 +81,7 @@ Large photo; editable tags; one row of toggles (fit, favourite, needs ironing an
 
 ### Spark tab (Q149)
 
-Current conversation; earlier requests listed by event ("Sam's wedding, 14/03/2026"); tap to reopen outfits and the saved choice. Any conversation can be deleted. Chats kept for 12 months unless saved to a plan.
+Current conversation; earlier requests listed by event ("Sam's wedding, 14/03/2026"); tap to reopen outfits and the saved choice. Any conversation can be deleted. Chats kept for 12 months (6 months for under-18s) unless saved to a plan.
 
 ### Post-event follow-up (Q151)
 
@@ -133,7 +133,7 @@ WCAG 2.2 AA; main actions within one-handed reach; tap targets at least 44 point
 
 ```mermaid
 flowchart LR
-  A[Welcome] --> B[Sign in, 18+]
+  A[Welcome] --> B[Sign in, 13+]
   B --> C{How to start?}
   C -->|Event| D[What's coming up?]
   D --> E[Spark names 3 to 5 items]

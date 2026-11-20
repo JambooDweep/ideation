@@ -152,6 +152,10 @@ Phase 2 features are a paid tier, with a free 30-day trial. The Phase 1 core app
 - **Invitation parsing**: sample forwarded invitations with expected dress code, venue and time.
 - **Privacy**: tests that only names are stored for guests, that memory expires at 2 years, and that deletion removes everything.
 
+## Age
+
+Under-18s (SAFEGUARDS.md section 7, Q161): calendar connection and memory are off for 13 to 15; opt-in for 16 to 17, with guest names never stored.
+
 ## Out of Scope
 
 - Apple iCloud calendar (later).

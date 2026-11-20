@@ -30,6 +30,12 @@ Date: 20/11/2026. Applies to every phase PRD in `prds/`. Where a PRD and this do
 | Shop links never carry personal details | 4 | Q86 |
 | Trace and logs hold actions, timings and costs only, never photo, message or document content | All | Q19, Q54 |
 | No location-based detection of shopping or other places; location is used only for the weather at a request's place and time | 1 to 4 | Q154 |
+| Q158 | Minimum age 13; no parental consent step; under 13s cannot sign up. |
+| Q159 | Date of birth at sign-up; only the age band stored; re-checked yearly. |
+| Q160 | Teen mode for 13 to 17: no measurements or proportions, no inspiration photos, reminders off by default, no habit prompts, stricter Spark rules, gaps never "buy". |
+| Q161 | Phase access for 13 to 17: Phase 1 yes; Phase 2 calendar and memory off under 16, opt-in at 16 to 17; Phase 3 without resale listings; Phase 4 18+ only. |
+| Q162 | Teen photos: no people, school logos or name labels; location data stripped from all photos. |
+| Q164 | Teen privacy notice, DPIA for under-18s before launch, 6-month chat retention for under-18s, 12+ store rating. |
 
 ## 2. AI accuracy and manipulation
 
@@ -113,10 +119,46 @@ Used for colour advice, lengths and silhouettes, fit, alteration prompts (Phase 
 - Secrets kept out of the code and out of the repository.
 - Alerts on unusual activity (sign-ins, upload spikes, cost spikes).
 
-## 7. Age (Q96)
+## 7. Age and teen mode (Q158 to Q164; replaces Q96)
 
-- 18+ for the prototype and Phases 1 to 4, checked at sign-up.
-- A teen version, which would bring in the UK Age Appropriate Design Code, is a later decision.
+The app is **13+**. Users aged 13 to 17 can consent for themselves under UK GDPR, so there is no parental consent step, but the UK Age Appropriate Design Code (the Children's Code) applies to them. Not legal advice: have the consent flow and the DPIA checked by someone qualified before launch.
+
+### Sign-up (Q159)
+
+- Date of birth asked at sign-up (not a tick box). Under 13s cannot sign up: a friendly message is shown and no data is kept.
+- Only the age band (13 to 17, or 18+) and the date it changes are stored; the full date of birth is not kept, and Spark never sees the band.
+- The band is re-checked yearly and moves to 18+ automatically.
+
+### Teen mode, 13 to 17 (Q160)
+
+- **Profile**: no tailoring measurements or body proportions; height, colour undertone and fit preferences only.
+- **Inspiration photos**: off.
+- **Reminders**: wardrobe check-up and daily outfit available but off by default; no laundry prompt or category sprints.
+- **Spark**: stricter body-image rules (never "older", "sexier" or "slimmer") and an age-appropriate tone (see [docs/persona.md](docs/persona.md)).
+- **Gaps**: framed as "items that would give you more outfits", never "buy".
+- **Learning from feedback**: stays on, explained in the teen privacy notice.
+- High privacy settings by default; no nudge techniques.
+
+### Phases for 13 to 17 (Q161)
+
+| Phase | 13 to 15 | 16 to 17 |
+|---|---|---|
+| 1 | Yes, teen mode | Yes, teen mode |
+| 2 | Calendar and memory off | Calendar and memory opt-in; guest names never stored |
+| 3 | Trips and care; donation plans; no resale listings | Same |
+| 4 | Not available | Not available (18+ only, permanently) |
+
+### Photos (Q162)
+
+- Teen accounts: any photo with a person in it is rejected, as are photos showing school logos or name labels.
+- All accounts: location data (EXIF) is stripped from every photo before storage.
+
+### Compliance (Q164)
+
+- Teen-friendly privacy notice.
+- A DPIA covering under-18s completed before launch.
+- Chats kept 6 months for under-18s (12 months for adults).
+- App store age rating 12+ when native apps come; 13+ is enforced by the sign-up age check.
 
 ## 8. Compliance, rights and operations
 
@@ -154,7 +196,7 @@ Used for colour advice, lengths and silhouettes, fit, alteration prompts (Phase 
 | Q93 | Optional fit and colour profile in Phase 1: undertone (not skin colour), height, proportions, optional tailoring measurements; user-entered only, never from photos. |
 | Q94 | Body-image rules enforced by instructions, testing and a filter. |
 | Q95 | Prompt-injection defences for all outside content, with a planted-attack test set. |
-| Q96 | 18+ for Phases 1 to 4; teen version later. |
+| Q96 | 18+ for Phases 1 to 4; teen version later. Replaced by Q158: the app is 13+. |
 | Q97 | Photo check rejects nudity, underwear worn, children and other people's belongings; never stored. |
 | Q98 | Cooling-off on items over £100 by default; monthly spend summary; digest pause after two over-budget months. |
 | Q99 | Export, 30-day deletion, privacy notice, consent records, DPIA before Phase 2. |

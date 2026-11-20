@@ -205,7 +205,7 @@ The prototype is a PWA; native iOS and Android apps follow in a later phase.
 
 ### Modules
 
-- **Accounts and profile**: sign-up with 18+ check, sign-in (passkeys or email codes), optional style profile, account deletion (removes photos, items, outfits, feedback).
+- **Accounts and profile**: sign-up with date of birth and a 13+ age check, setting teen mode for 13 to 17 (see [SAFEGUARDS.md](../SAFEGUARDS.md) section 7), sign-in (passkeys or email codes), optional style profile, account deletion (removes photos, items, outfits, feedback).
 - **Fit and colour profile**: optional, user-entered only (never inferred from photos): colour undertone (not skin colour), height, body proportions in neutral terms, optional tailoring measurements, gender preference or "prefer not to say", adaptive clothing note. Used by the outfit engine for colour, lengths, silhouettes and fit. Consent recorded. See [SAFEGUARDS.md](../SAFEGUARDS.md) for body-image rules and all other safeguards.
 - **Capture**: camera and upload, framing guidance overlay, image downscaling before upload. Modes (Q127 to Q129):
   - **Single item** photo.
@@ -382,4 +382,5 @@ Decisions:
 | Q130 | About 20 basics without a photo, flagged in suggestions and excluded from counts; revises Phase 3 Q65 for basics. |
 | Q131 | Opt-in laundry-day prompt and 10-minute category sprints. |
 | Q132 | Targets: first outfit within 5 minutes for 80%; 15 items within 7 days for 60%. |
+| Q158 to Q164 | The app is 13+, with teen mode for 13 to 17 (see SAFEGUARDS.md section 7). |
 | Q133 | Free inbound email: Cloudflare Email Routing with an Email Worker on a sub-domain; random per-user addresses; Worker stores nothing; small free webhook service as early fallback. |

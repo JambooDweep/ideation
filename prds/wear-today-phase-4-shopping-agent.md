@@ -142,6 +142,10 @@ Never stored: card numbers, bank details, payment tokens, shop passwords and log
 - **Payment boundary**: checks that no tool can pay; that no card, bank, payment token, shop login or address is ever stored; that order emails are deleted after reading; and that shop links carry no personal details.
 - **Share a link**: sample product pages; checks the right details are read, that only one page is fetched per share, and that no seller details are stored.
 
+## Age
+
+Age: Phase 4 is available only to users aged 18 and over, permanently (SAFEGUARDS.md section 7, Q161).
+
 ## Out of Scope
 
 - The agent paying, or any stored payment method (permanently).

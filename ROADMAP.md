@@ -79,7 +79,7 @@ Photograph your wardrobe one item at a time with a guided quality check; the AI 
 
 ## Principles across every phase
 
-The full set of safeguards for Phases 1 to 4 is in [SAFEGUARDS.md](SAFEGUARDS.md).
+The full set of safeguards for Phases 1 to 4 is in [SAFEGUARDS.md](SAFEGUARDS.md). The app is 13+, with a teen mode for 13 to 17 and shopping for 18+ only.
 
 ### Trust ladder
 

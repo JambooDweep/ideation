@@ -135,6 +135,10 @@ The Phase 2 approach carries over: caching, bulk overnight jobs where not time-s
 - **Clear-out rules**: fixed wear histories; checks the 18-month rule, the full-season rule and "keep".
 - **Trust level 2**: checks that every action is undoable in one tap and logged, and that no tool can post, delete or contact anyone.
 
+## Age
+
+Under-18s (SAFEGUARDS.md section 7, Q161): trips, usage, care and donation plans available; no resale listings.
+
 ## Out of Scope
 
 - Posting directly to resale apps; any automatic selling or donation booking.
