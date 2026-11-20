@@ -279,6 +279,7 @@ The prototype is tested on free tiers only. Limits were checked against 2026 sou
 | Next.js PWA hosting | Vercel Hobby | No card, no expiry; HTTPS (required for a PWA); a preview link for each push; about 100 GB transfer and a few hours of server time a month | Personal, non-commercial use only; a feature pauses until the month resets if limits are exceeded |
 | Database, sign-in, photo storage | Supabase Free | 500 MB database, 1 GB file storage, 5 GB data out a month, 50,000 monthly users, up to 2 projects | Project pauses after about a week of low activity: open it before test sessions or add a scheduled ping |
 | Weather forecast | Open-Meteo | Free, no key, forecasts up to 16 days | Non-commercial use; terms to be confirmed |
+| Inbound email (forwarding address for order emails) | Cloudflare Email Routing with an Email Worker | Inbound email unlimited on the free plan; the Worker runs on Workers Free | Needs a domain on Cloudflare DNS (a domain costs roughly £10 a year, the only extra cost); the Worker must be written to parse each message and post it to the app |
 | Voice | Browser built-in speech | Free | Support varies by browser (best in Chrome and Safari); cloud speech fallback left out of the free set-up |
 
 Decisions:
@@ -286,6 +287,8 @@ Decisions:
 - Photos are downscaled to about 200 KB before upload, so 1 GB holds about 5,000 item photos: roughly 100 test users at 30 to 50 items each.
 - The Claude API is the only paid part. A monthly spend limit is set in the Anthropic console, and `claude-sonnet-5-5` is used for tagging and suggestions during testing to keep costs down.
 - Separate Supabase projects for development and testing (the two free projects).
+- Inbound email (Q133): a catch-all on a sub-domain (for example `in.<app domain>`) routes every message to one Email Worker. Each user gets a random, unguessable address (`u-<random>@in.<app domain>`). The Worker checks the address belongs to a user, extracts the message text, posts it to the app over HTTPS with a shared secret, and stores nothing itself. The app extracts only item, price, date and shop and discards the message. Messages to unknown addresses are dropped. A user can regenerate their address if it attracts spam.
+- Inbound email fallback: if no domain is available during early testing, a small free email-to-webhook service (for example Mailhooks, about 100 emails a month) can stand in, on the condition that it does not retain message content.
 - Moving to Vercel Pro and Supabase Pro (about $20 and $25 a month, from third-party guides) is needed before any commercial use, and removes the inactivity pause.
 
 ## Out of Scope
@@ -379,3 +382,4 @@ Decisions:
 | Q130 | About 20 basics without a photo, flagged in suggestions and excluded from counts; revises Phase 3 Q65 for basics. |
 | Q131 | Opt-in laundry-day prompt and 10-minute category sprints. |
 | Q132 | Targets: first outfit within 5 minutes for 80%; 15 items within 7 days for 60%. |
+| Q133 | Free inbound email: Cloudflare Email Routing with an Email Worker on a sub-domain; random per-user addresses; Worker stores nothing; small free webhook service as early fallback. |

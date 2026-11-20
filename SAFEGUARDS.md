@@ -26,6 +26,7 @@ Date: 20/11/2026. Applies to every phase PRD in `prds/`. Where a PRD and this do
 | Receipts, bookings and order emails: extract only the fields needed, delete the email immediately | 3, 4 | Q70, Q86 |
 | Never stored: card numbers, bank details, payment tokens, shop passwords or logins, delivery addresses, booking references, seller details | 3, 4 | Q70, Q86, Q92b |
 | Video frames not used as item photos discarded after splitting | 3 | Q70 |
+| Forwarding addresses random and unguessable, regenerable; messages to unknown addresses dropped; the inbound email Worker stores nothing | 1 | Q133 |
 | Shop links never carry personal details | 4 | Q86 |
 | Trace and logs hold actions, timings and costs only, never photo, message or document content | All | Q19, Q54 |
 
