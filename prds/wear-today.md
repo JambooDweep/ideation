@@ -124,6 +124,46 @@ The prototype is a PWA; native iOS and Android apps follow in a later phase.
 72. As a user, I want every profile field optional, editable and deletable, and never guessed from my photos, so that I control this personal data.
 73. As a user, I want the app never to comment on my weight or body, only on the clothes, so that using it feels good.
 
+### Richer requests
+
+74. As a user, I want to name an item to build around ("around my new green dress"), by text, voice or tapping it in my wardrobe, so that I can wear what I have in mind.
+75. As a user, I want to leave items out of a request ("not the black trousers"), so that suggestions respect what I've ruled out.
+76. As a user, I want the app to understand my role at the event (guest, host, wedding party, speaker, interviewee), so that the outfit suits my part.
+77. As a user, I want the app to account for what I'll be doing (walking far, standing for hours, dancing, sitting on the floor, cycling there), so that the outfit is practical.
+78. As a user, I want the venue and surface considered (indoors or outdoors, grass, cobbles, sand), so that my shoes work.
+79. As a user, I want long events that run into the evening to include layers for the temperature drop, so that I'm comfortable all day.
+80. As a user, I want photos expected at the event to favour solid colours over busy patterns, so that I look good in pictures.
+81. As a user, I want common etiquette and cultural rules applied (no white at weddings unless I'm the bride, covered shoulders at religious venues if asked, dark colours at funerals), so that I never get it embarrassingly wrong.
+82. As a user, I want to add my own etiquette rules ("at Hindu weddings, avoid black"), so that my culture and family customs are respected.
+83. As a user, I want the app to ask when it is unsure about an etiquette rule, rather than assume, so that it doesn't impose rules that don't apply to me.
+84. As a user, I want at most 2 follow-up questions per request, chosen by how much they change the outfit, so that asking stays quick.
+85. As a user, I want each suggestion to show "Based on:" (weather, dress code, role, activity, venue), each tappable to correct, so that I can see and fix wrong assumptions.
+
+### Richer profile
+
+86. As a user, I want to say whether I run hot or cold, so that layers suit me at a given temperature.
+87. As a user, I want to set hard limits (things I never wear, how much I like to cover up, highest heel I'll wear, fabrics I react to), so that I'm never suggested something I won't wear.
+88. As a user, I want to set my everyday work dress code once, so that every work request is right.
+89. As a user, I want to set colours I love, not only colours I avoid, so that suggestions lean towards them.
+90. As a user, I want to add my hair colour and contrast level (light or dark hair against skin), so that colour advice is accurate.
+91. As a user, I want to set style goals ("more polished", "more colour") and add optional inspiration photos of outfits I like, without faces, so that suggestions move towards the look I want.
+92. As a user, I want these profile questions asked gradually ("one quick question" after a suggestion), never as a long form, so that setting up stays quick.
+
+### Richer items
+
+93. As a user, I want to mark whether an item fits now (fits well, tight, loose, needs altering), so that ill-fitting items aren't suggested.
+94. As a user, I want items marked tight, loose or needs altering left out of suggestions until I mark them fixed, so that every suggestion is wearable today.
+95. As a user, I want to mark favourites and confidence items, and items that are rarely comfortable, so that suggestions lean towards what I love wearing.
+96. As a user, I want to confirm fabric weight and lining on outerwear and knits, so that warmth is judged correctly.
+97. As a user, I want to group sets (a suit jacket that only goes with its trousers) and set "never pair these" rules, so that combinations make sense.
+98. As a user, I want to mark items that need ironing or crease easily, so that the app can account for a quick morning.
+
+### Learning and starting out
+
+99. As a user, I want to give an optional one-tap reason when I reject an outfit (too formal, too casual, colour, not comfortable, worn recently, not me, wrong for the weather), so that the next suggestions improve straight away.
+100. As a new user, I want a balanced first-set checklist (tops, bottoms, a pair of shoes of each type, a coat) shown as progress, so that I photograph the right items first.
+101. As a new user, I want suggestions to start once I have 8 items, with a note that quality improves at 15 or more, so that I see value early and know what to add.
+
 ## Implementation Decisions
 
 ### Platform and stack
@@ -140,17 +180,21 @@ The prototype is a PWA; native iOS and Android apps follow in a later phase.
 - **Accounts and profile**: sign-up with 18+ check, sign-in (passkeys or email codes), optional style profile, account deletion (removes photos, items, outfits, feedback).
 - **Fit and colour profile**: optional, user-entered only (never inferred from photos): colour undertone (not skin colour), height, body proportions in neutral terms, optional tailoring measurements, gender preference or "prefer not to say", adaptive clothing note. Used by the outfit engine for colour, lengths, silhouettes and fit. Consent recorded. See [SAFEGUARDS.md](../SAFEGUARDS.md) for body-image rules and all other safeguards.
 - **Capture**: camera and upload, framing guidance overlay, image downscaling before upload.
+- **Onboarding**: balanced first-set checklist (tops, bottoms, a pair of shoes of each type, a coat) shown as progress; suggestions available from 8 items, with a note that quality improves at 15 or more.
 - **Photo quality check**: a fast on-device pre-check (blur, brightness, resolution) and then an AI check (single item, whole item in frame, background, no face). Returns pass/fail plus one specific tip. A photo containing a face is rejected and not stored.
 - **Item tagging**: AI returns structured tags (category, colour, pattern, material, formality, warmth, season) via a fixed JSON schema. Each tag records whether it came from the AI or the user; user-set values are never overwritten.
+- **Item details** (user, one-tap): fit now (fits well, tight, loose, needs altering); favourite or confidence item, or rarely comfortable; confirmed fabric weight and lining for outerwear and knits; needs ironing or creases easily; sets and "never pair these" rules. Items marked tight, loose or needs altering are excluded from suggestions until marked fixed (Phase 3 turns them into alteration tasks).
 - **Wardrobe**: item list, filters, availability toggle, delete.
-- **Request understanding**: turns free text or voice into a structured request (occasion, dress code, mood, location, date/time, extra constraints), returns which fields are missing, and asks for them. Fallback: device location and today's date.
+- **Request understanding**: turns free text or voice into a structured request: occasion, dress code, mood, location, date/time, anchor item(s) to build around, excluded items, role (guest, host, wedding party, speaker, interviewee), activity (walking, standing, dancing, sitting on the floor, cycling), venue and surface (indoors or outdoors, grass, cobbles, sand), duration, etiquette and cultural context, photos expected. Anchors and exclusions can also be set by tapping items. It asks at most 2 follow-up questions, chosen by how much the answer would change the outfit, and returns the rest as stated assumptions. Fallback: device location and today's date.
+- **Assumptions display**: each result shows "Based on:" with weather, dress code, role, activity and venue; each is tappable to correct and re-run.
+- **Etiquette rules**: a built-in set of common rules checked in code (for example no white at weddings unless the user is the bride, covered shoulders at religious venues if asked, dark colours at funerals) plus user-added rules. When unsure whether a rule applies, the app asks rather than assumes.
 - **Weather**: forecast for the resolved place and time; requests beyond the forecast window are told so and use typical seasonal conditions, labelled as such.
-- **Outfit engine**: filters the wardrobe in code first (available items only; warmth and season against the weather; formality against the dress code), then asks the AI to compose three outfits from the shortlist with a one-line reason each, as structured output referencing item IDs only. Code validates every outfit: only real, available item IDs; at least top and bottom or a one-piece, plus shoes; outerwear when the weather calls for it. Invalid outfits are dropped and regenerated. If no valid outfit meets the occasion, the engine returns the closest match and names the missing item type. No shopping links.
+- **Outfit engine**: filters the wardrobe in code first (available items that fit now; anchors included and exclusions removed; hard limits from the profile (never-worn items, coverage, maximum heel, fabric sensitivities); sets and never-pair rules; warmth and season against the weather, adjusted for running hot or cold; formality against the dress code and the user's work dress code for work requests; footwear against activity and surface; etiquette rules), then asks the AI to compose three outfits from the shortlist with a one-line reason each, as structured output referencing item IDs only. Code validates every outfit: only real, available item IDs; at least top and bottom or a one-piece, plus shoes; outerwear when the weather calls for it. Invalid outfits are dropped and regenerated. If no valid outfit meets the occasion, the engine returns the closest match and names the missing item type. No shopping links.
 - **Gap analysis**: candidate gap items are generic item descriptions (type, colour family, formality, warmth). For each candidate, code adds it as a virtual item and counts the new valid outfits it enables with the user's owned items, using the same outfit validity rules as the outfit engine. The AI may propose candidates and word the description, but the counts always come from code. In the moment, a gap is shown only when it relates to the current request (it would complete one of the three outfits or meet an unmet dress code); the insights list shows all gaps, ranked by new outfits unlocked. Dismissed gaps are stored per user and never shown again. No brands, prices or shopping links.
 - **Chat assistant**: conversational front end over request understanding and the outfit engine; supports follow-ups ("warmer", "less formal") and single-item swaps.
 - **Saved outfits**: save against event and date, list upcoming.
-- **Feedback**: like/reject/swap events at suggestion time; a post-event follow-up the day after a saved outfit's date (stars, quick tags, optional comment), which can be skipped or snoozed; in-app product feedback form with optional screenshot.
-- **Personalisation**: profile plus feedback history summarised into preference signals given to the outfit engine.
+- **Feedback**: like/reject/swap events at suggestion time, with optional one-tap reject reasons (too formal, too casual, colour, not comfortable, worn recently, not me, wrong for the weather) that also steer the next suggestions in the same chat; a post-event follow-up the day after a saved outfit's date (stars, quick tags, optional comment), which can be skipped or snoozed; in-app product feedback form with optional screenshot.
+- **Personalisation**: profile plus feedback history summarised into preference signals given to the outfit engine. Profile additions, all optional and asked gradually ("one quick question" after a suggestion): runs hot or cold, hard limits, everyday work dress code, colours loved, hair colour and contrast level, style goals and optional inspiration photos (no faces, same photo check as items). Favourites and confidence items are preferred; rarely comfortable items are used less.
 - **Insights**: per-user wardrobe insights; builder dashboard over anonymised, aggregated metrics.
 - **Usage and cost log**: per AI call, record step, model, tokens and cost, never photo or text content.
 
@@ -166,7 +210,10 @@ The prototype is a PWA; native iOS and Android apps follow in a later phase.
 - Good tests check external behaviour (what the user sees and what a module returns for given inputs), not internal details.
 - **Highest seam: the outfit engine.** Given a wardrobe, a structured request and a weather forecast, it returns three valid outfits or a clear gap message. Tested with fixed wardrobes and a stubbed AI response to cover: only available items used; formality and warmth filters; outerwear in cold or rain; missing-category gap messages; invalid AI output (unknown item IDs, incomplete outfits) rejected.
 - **Gap analysis**: fixed wardrobes with known answers, checking that the counts of new combinations and paired items are exact, that the ranking orders by outfits unlocked, that in-the-moment gaps appear only when relevant to the request, that dismissed gaps never reappear, and that output contains no brands or links.
-- **Request understanding**: a set of sample descriptions with expected structured requests and missing-field lists, including relative dates ("this Saturday") resolved as dd/mm/yyyy.
+- **Request understanding**: a set of sample descriptions with expected structured requests and missing-field lists, including relative dates ("this Saturday") resolved as dd/mm/yyyy, anchors and exclusions, role, activity, venue and etiquette context; checks that no more than 2 follow-up questions are asked and that unasked fields appear as stated assumptions.
+- **Outfit engine constraints**: fixed wardrobes and requests; checks that anchors always appear, exclusions never do, ill-fitting items and hard limits are respected, sets and never-pair rules hold, footwear suits activity and surface, and running hot or cold shifts layers.
+- **Etiquette rules**: sample events (weddings, funerals, religious venues, user-added rules); checks that no suggestion breaks an applicable rule and that the app asks when unsure.
+- **Reject reasons**: checks that a reason changes the next suggestions in the same chat (for example "too formal" lowers formality).
 - **Photo quality check**: a labelled image set (good, blurred, dark, cropped, several items, face present) with expected pass/fail and tip.
 - **Item tagging**: a labelled image set scored for tag accuracy; check that user edits survive re-tagging.
 - **End-to-end**: a scripted run in a mobile browser: sign up, add items, request an outfit, swap an item, save it, give post-event feedback, delete the account.
@@ -254,3 +301,11 @@ Decisions:
 | Q35 | Test on free tiers: Vercel Hobby, Supabase Free, Open-Meteo, browser speech; Claude API is the only paid part. |
 | Q93 | Optional fit and colour profile (see SAFEGUARDS.md). |
 | Q102 | Gender preference or "prefer not to say"; gender-neutral if not set. |
+| Q103 | Requests can name items to build around and items to leave out. |
+| Q104 | Request understanding covers role, activity, venue and surface, duration, etiquette and photos; at most 2 follow-up questions; the rest shown as assumptions. |
+| Q105 | Built-in etiquette rules checked in code, plus user-added rules; ask when unsure. |
+| Q106 | Profile adds running hot or cold, hard limits, work dress code, colours loved, hair colour and contrast, style goals and inspiration photos (no faces); optional and gradual. |
+| Q107 | Items add fit now, favourite or rarely comfortable, fabric weight and lining, needs ironing, sets and never-pair rules; ill-fitting items excluded until fixed. |
+| Q108 | Optional one-tap reject reasons that steer the next suggestions and learning. |
+| Q109 | Balanced first-set checklist; suggestions from 8 items, better at 15 or more. |
+| Q110 | Each suggestion shows "Based on:" assumptions, tappable to correct. |
