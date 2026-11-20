@@ -279,7 +279,7 @@ The prototype is tested on free tiers only. Limits were checked against 2026 sou
 | Next.js PWA hosting | Vercel Hobby | No card, no expiry; HTTPS (required for a PWA); a preview link for each push; about 100 GB transfer and a few hours of server time a month | Personal, non-commercial use only; a feature pauses until the month resets if limits are exceeded |
 | Database, sign-in, photo storage | Supabase Free | 500 MB database, 1 GB file storage, 5 GB data out a month, 50,000 monthly users, up to 2 projects | Project pauses after about a week of low activity: open it before test sessions or add a scheduled ping |
 | Weather forecast | Open-Meteo | Free, no key, forecasts up to 16 days | Non-commercial use; terms to be confirmed |
-| Inbound email (forwarding address for order emails) | Cloudflare Email Routing with an Email Worker | Inbound email unlimited on the free plan; the Worker runs on Workers Free | Needs a domain on Cloudflare DNS (a domain costs roughly £10 a year, the only extra cost); the Worker must be written to parse each message and post it to the app |
+| Inbound email (forwarding address for order emails) | Cloudflare Email Routing with an Email Worker | Inbound email unlimited on the free plan; the Worker runs on Workers Free | Needs a domain on Cloudflare DNS: free if the builder already owns one (move its DNS to Cloudflare's free plan, copying existing records first, and use a sub-domain so existing email is untouched); otherwise roughly £10 a year, the only extra cost; the Worker must be written to parse each message and post it to the app |
 | Voice | Browser built-in speech | Free | Support varies by browser (best in Chrome and Safari); cloud speech fallback left out of the free set-up |
 
 Decisions:
