@@ -142,6 +142,7 @@ Used for colour advice, lengths and silhouettes, fit, alteration prompts (Phase 
 | Money | Budget, per-item maximum, cooling-off and digest pause on sample spend histories |
 | Privacy | Only the listed fields are stored; emails deleted after reading; export and deletion complete |
 | Inclusion | Gender-neutral by default; gender preference respected when set; "prefer not to say" never infers gender |
+| Spark's tone | Tone tests in [docs/persona.md](docs/persona.md): honesty, length, no emoji in sensitive moments or about the body, "are you human?" answered truthfully |
 
 ## Decision log
 

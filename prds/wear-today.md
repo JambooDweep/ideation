@@ -1,6 +1,6 @@
 # Wear Today: Product Requirements Document
 
-Phase 1 of the [Roadmap](../ROADMAP.md). Safeguards: [SAFEGUARDS.md](../SAFEGUARDS.md). Working name; can be renamed. Status: draft for prototype build. Owner: product owner (self). Date: 20/11/2026.
+Phase 1 of the [Roadmap](../ROADMAP.md). Safeguards: [SAFEGUARDS.md](../SAFEGUARDS.md). Assistant persona: [Spark](../docs/persona.md). Working name; can be renamed. Status: draft for prototype build. Owner: product owner (self). Date: 20/11/2026.
 
 ## Problem Statement
 
@@ -191,7 +191,8 @@ The prototype is a PWA; native iOS and Android apps follow in a later phase.
 - **Weather**: forecast for the resolved place and time; requests beyond the forecast window are told so and use typical seasonal conditions, labelled as such.
 - **Outfit engine**: filters the wardrobe in code first (available items that fit now; anchors included and exclusions removed; hard limits from the profile (never-worn items, coverage, maximum heel, fabric sensitivities); sets and never-pair rules; warmth and season against the weather, adjusted for running hot or cold; formality against the dress code and the user's work dress code for work requests; footwear against activity and surface; etiquette rules), then asks the AI to compose three outfits from the shortlist with a one-line reason each, as structured output referencing item IDs only. Code validates every outfit: only real, available item IDs; at least top and bottom or a one-piece, plus shoes; outerwear when the weather calls for it. Invalid outfits are dropped and regenerated. If no valid outfit meets the occasion, the engine returns the closest match and names the missing item type. No shopping links.
 - **Gap analysis**: candidate gap items are generic item descriptions (type, colour family, formality, warmth). For each candidate, code adds it as a virtual item and counts the new valid outfits it enables with the user's owned items, using the same outfit validity rules as the outfit engine. The AI may propose candidates and word the description, but the counts always come from code. In the moment, a gap is shown only when it relates to the current request (it would complete one of the three outfits or meet an unmet dress code); the insights list shows all gaps, ranked by new outfits unlocked. Dismissed gaps are stored per user and never shown again. No brands, prices or shopping links.
-- **Chat assistant**: conversational front end over request understanding and the outfit engine; supports follow-ups ("warmer", "less formal") and single-item swaps.
+- **Chat assistant**: speaks as Spark, following [docs/persona.md](../docs/persona.md) (voice, honesty rules, length, emoji, tone tests).
+- **Chat assistant (behaviour)**: conversational front end over request understanding and the outfit engine; supports follow-ups ("warmer", "less formal") and single-item swaps.
 - **Saved outfits**: save against event and date, list upcoming.
 - **Feedback**: like/reject/swap events at suggestion time, with optional one-tap reject reasons (too formal, too casual, colour, not comfortable, worn recently, not me, wrong for the weather) that also steer the next suggestions in the same chat; a post-event follow-up the day after a saved outfit's date (stars, quick tags, optional comment), which can be skipped or snoozed; in-app product feedback form with optional screenshot.
 - **Personalisation**: profile plus feedback history summarised into preference signals given to the outfit engine. Profile additions, all optional and asked gradually ("one quick question" after a suggestion): runs hot or cold, hard limits, everyday work dress code, colours loved, hair colour and contrast level, style goals and optional inspiration photos (no faces, same photo check as items). Favourites and confidence items are preferred; rarely comfortable items are used less.
@@ -309,3 +310,4 @@ Decisions:
 | Q108 | Optional one-tap reject reasons that steer the next suggestions and learning. |
 | Q109 | Balanced first-set checklist; suggestions from 8 items, better at 15 or more. |
 | Q110 | Each suggestion shows "Based on:" assumptions, tappable to correct. |
+| Q111 to Q117 | The chat assistant is Spark: a calm, warm, honest styling assistant; see docs/persona.md. |
